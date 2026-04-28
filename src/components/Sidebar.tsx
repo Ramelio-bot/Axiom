@@ -9,7 +9,8 @@ import {
   Coins, 
   Clock, 
   Settings, 
-  BarChart3 
+  BarChart3,
+  BookOpen
 } from "lucide-react";
 
 const navItems = [
@@ -17,6 +18,7 @@ const navItems = [
   { icon: Calculator, label: "Position Sizer", href: "/position-sizer" },
   { icon: Coins, label: "Pip Value", href: "/pip-value" },
   { icon: Clock, label: "Market Clock", href: "/market-clock" },
+  { icon: BookOpen, label: "Academy", href: "/education" },
 ];
 
 export default function Sidebar() {
@@ -28,7 +30,7 @@ export default function Sidebar() {
         <div className="w-8 h-8 bg-emerald rounded flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.2)]">
           <BarChart3 className="text-zinc-950" size={18} strokeWidth={2.5} />
         </div>
-        <h1 className="text-lg font-semibold tracking-tight">AXIOM</h1>
+        <h1 className="text-lg font-semibold tracking-tight text-zinc-100">AXIOM</h1>
       </Link>
 
       <nav className="flex-1 space-y-1">
@@ -55,17 +57,18 @@ export default function Sidebar() {
       </nav>
 
       <div className="mt-auto pt-6 border-t border-border-thin space-y-1">
+        {/* Sidebar Ad Slot */}
+        <div className="mb-4 border border-dashed border-white/5 rounded-lg p-4 flex flex-col items-center justify-center bg-white/[0.01]">
+          <span className="text-[8px] font-bold text-zinc-700 uppercase tracking-widest mb-1">Advertisement</span>
+          <div className="w-full h-20 bg-zinc-950/50 rounded flex items-center justify-center">
+            <span className="text-[9px] text-zinc-800 font-bold">300 x 250</span>
+          </div>
+        </div>
+
         <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-500 hover:bg-white/5 hover:text-zinc-200 transition-all duration-300">
           <Settings size={16} />
           <span className="text-sm">Settings</span>
         </button>
-        <div className="px-3 py-3 mt-4 rounded-lg bg-zinc-900/50 border border-border-thin">
-          <div className="flex items-center gap-2 mb-1.5">
-            <div className="pulsing-dot" />
-            <span className="text-[10px] text-zinc-400 font-medium uppercase tracking-wider">Active Terminal</span>
-          </div>
-          <p className="text-[9px] text-zinc-600 leading-tight">Tier-1 liquidity connection established.</p>
-        </div>
       </div>
     </div>
   );

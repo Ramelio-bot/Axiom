@@ -131,6 +131,15 @@ export default function PositionSizer() {
           Finalize Transaction
           <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
         </button>
+
+        {/* Content Ad Slot */}
+        <div className="mt-4 border border-dashed border-white/5 rounded-xl p-6 flex flex-col items-center justify-center bg-white/[0.01]">
+          <span className="text-[8px] font-bold text-zinc-800 uppercase tracking-[0.2em] mb-2">Internal Analytics Ad</span>
+          <div className="w-full h-10 bg-zinc-950/50 rounded flex items-center justify-center border border-white/5">
+            <span className="text-[8px] text-zinc-900 font-bold tracking-widest italic">728 x 90 PLACEHOLDER</span>
+          </div>
+        </div>
+
       </motion.div>
     </div>
   );

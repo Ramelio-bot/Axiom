@@ -55,6 +55,7 @@ export default function Combobox({ selected, onSelect }: ComboboxProps) {
                 placeholder="Search assets..."
                 className="w-full bg-zinc-950 border border-white/5 rounded-md pl-9 pr-4 py-2 text-xs focus:outline-none focus:border-emerald/30"
               />
+
             </div>
           </div>
           <div className="max-h-60 overflow-y-auto custom-scrollbar">

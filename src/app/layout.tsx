@@ -34,9 +34,9 @@ export default function RootLayout({
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1654989373253564"
           crossOrigin="anonymous"
-          strategy="lazyOnload"
         />
       </head>
+
 
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground min-h-full flex h-screen overflow-hidden`}

@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   description: "High-Precision Trading Intelligence. Professional position sizing and risk management terminal.",
 };
 
+import Sidebar from "@/components/Sidebar";
+import PriceBar from "@/components/PriceBar";
+import Footer from "@/components/Footer";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,11 +29,17 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-obsidian text-white min-h-full`}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground min-h-full flex h-screen overflow-hidden`}
       >
-        {children}
+        <Sidebar />
+        <div className="flex-1 flex flex-col min-w-0 overflow-y-auto custom-scrollbar">
+          <PriceBar />
+          {children}
+          <Footer />
+        </div>
       </body>
     </html>
   );
 }
+
 

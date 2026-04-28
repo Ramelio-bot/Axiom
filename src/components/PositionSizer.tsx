@@ -3,12 +3,14 @@
 import React, { useState, useEffect } from "react";
 import { Info, Calculator, Target, ShieldCheck, ArrowRight, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
+import { ASSETS, Asset } from "@/lib/assets";
+import Combobox from "./Combobox";
 
 export default function PositionSizer() {
   const [balance, setBalance] = useState("10000");
   const [risk, setRisk] = useState("1");
   const [stopLoss, setStopLoss] = useState("20");
-  const [asset, setAsset] = useState("Standard");
+  const [selectedAsset, setSelectedAsset] = useState<Asset>(ASSETS[0]);
   const [lotSize, setLotSize] = useState(0);
 
   useEffect(() => {
@@ -16,9 +18,8 @@ export default function PositionSizer() {
     const rsk = parseFloat(risk) || 0;
     const sl = parseFloat(stopLoss) || 0;
     
-    let pipValue = 10; 
-    if (asset === "JPY") pipValue = 10;
-    if (asset === "Gold") pipValue = 10;
+    // Logic: (Balance * (Risk/100)) / (StopLossPips * PipValue)
+    const pipValue = selectedAsset.pipValue;
     
     if (sl > 0 && bal > 0) {
       const riskAmount = bal * (rsk / 100);
@@ -27,10 +28,10 @@ export default function PositionSizer() {
     } else {
       setLotSize(0);
     }
-  }, [balance, risk, stopLoss, asset]);
+  }, [balance, risk, stopLoss, selectedAsset]);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
       {/* Left Column: Input Form */}
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
@@ -43,6 +44,11 @@ export default function PositionSizer() {
         </div>
 
         <div className="space-y-6">
+          <div className="space-y-2">
+            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Asset Selection</label>
+            <Combobox selected={selectedAsset} onSelect={setSelectedAsset} />
+          </div>
+
           <div className="space-y-2">
             <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Account Balance (USD)</label>
             <div className="relative group">
@@ -73,25 +79,6 @@ export default function PositionSizer() {
                 onChange={(e) => setStopLoss(e.target.value)}
                 className="w-full bg-zinc-950/50 border border-white/5 rounded-lg px-4 py-3.5 font-mono text-sm font-medium focus:outline-none focus:border-emerald/30 transition-all input-inner-shadow tabular-nums"
               />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Asset Selection</label>
-            <div className="flex p-1 bg-zinc-950/50 border border-white/5 rounded-lg">
-              {["Standard", "JPY", "Gold"].map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setAsset(type)}
-                  className={`flex-1 py-2 rounded-md text-[11px] font-bold transition-all ${
-                    asset === type 
-                      ? "bg-zinc-800 text-zinc-100 shadow-sm" 
-                      : "text-zinc-500 hover:text-zinc-300"
-                  }`}
-                >
-                  {type}
-                </button>
-              ))}
             </div>
           </div>
         </div>

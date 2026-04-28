@@ -1,157 +1,136 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import React, { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { 
-  Search, 
-  Share2, 
-  TrendingUp, 
   Activity, 
   Calendar, 
-  BarChart3,
-  Globe
+  TrendingUp,
+  ChevronDown
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const TVWidget = dynamic(() => import("@/components/TradingViewWidget"), { ssr: false });
+const TVWidget = dynamic(() => import("@/components/TradingViewWidget"), { 
+  ssr: false,
+  loading: () => <div className="h-full w-full bg-zinc-900/50 animate-pulse rounded-xl" />
+});
+
+const MAJOR_PAIRS = [
+  { label: "XAUUSD (Gold)", value: "OANDA:XAUUSD" },
+  { label: "EURUSD", value: "FX:EURUSD" },
+  { label: "GBPUSD", value: "FX:GBPUSD" },
+  { label: "USDJPY", value: "FX:USDJPY" },
+  { label: "BTCUSD", value: "BINANCE:BTCUSDT" },
+];
 
 function DashboardContent() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [symbol, setSymbol] = useState(searchParams.get("s") || "OANDA:XAUUSD");
-  const [searchInput, setSearchInput] = useState("");
-  const [showShareToast, setShowShareToast] = useState(false);
-
-  useEffect(() => {
-    const s = searchParams.get("s");
-    if (s) setSymbol(s);
-  }, [searchParams]);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchInput) {
-      const formatted = searchInput.toUpperCase();
-      setSymbol(formatted);
-      router.push(`?s=${formatted}`);
-      setSearchInput("");
-    }
-  };
-
-  const handleShare = () => {
-    const url = `${window.location.origin}${window.location.pathname}?s=${symbol}`;
-    navigator.clipboard.writeText(url);
-    setShowShareToast(true);
-    setTimeout(() => setShowShareToast(false), 3000);
-  };
+  const [symbol, setSymbol] = useState("OANDA:XAUUSD");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <main className="flex-1 p-8 max-w-[1600px] mx-auto w-full">
-      {/* Search & Share Bar */}
-      <div className="mb-8 flex flex-col md:flex-row gap-4 items-center justify-between">
-        <form onSubmit={handleSearch} className="relative w-full md:w-[400px]">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={16} />
-          <input 
-            type="text" 
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search Assets (e.g. BTCUSD, AAPL, EURUSD)"
-            className="w-full bg-zinc-900 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-emerald transition-all text-white placeholder:text-zinc-600"
-          />
-        </form>
-
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col items-end">
-            <span className="text-[10px] font-bold text-emerald uppercase tracking-[0.2em]">Monitoring Asset</span>
-            <span className="text-sm font-black text-white">{symbol}</span>
-          </div>
-          <button 
-            onClick={handleShare}
-            className="p-3 bg-zinc-900 border border-white/10 rounded-xl hover:border-emerald transition-all text-zinc-400 hover:text-emerald relative"
-          >
-            <Share2 size={18} />
-            <AnimatePresence>
-              {showShareToast && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute bottom-full mb-2 right-0 bg-emerald text-zinc-950 text-[10px] font-bold py-1 px-3 rounded whitespace-nowrap"
-                >
-                  LINK COPIED
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </button>
-        </div>
-      </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Main Chart Area */}
+        {/* Main Intelligence Column */}
         <div className="lg:col-span-9 space-y-6">
-          <div className="terminal-card overflow-hidden h-[600px] relative">
-            <div className="absolute top-4 left-4 z-10 px-3 py-1 bg-zinc-950/80 rounded border border-white/10">
-              <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest">Live {symbol} Intelligence</span>
+          <div className="terminal-card overflow-hidden h-[550px] relative flex flex-col border-white/5">
+            {/* Minimalist Header with Dropdown */}
+            <div className="p-4 border-b border-white/5 flex items-center justify-between bg-zinc-900/50">
+              <div className="flex flex-col">
+                <span className="text-[10px] font-bold text-emerald uppercase tracking-[0.2em]">Market Intelligence</span>
+                <span className="text-xs font-black text-white">{symbol.split(":")[1] || symbol}</span>
+              </div>
+              
+              <div className="relative">
+                <button 
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center gap-3 px-4 py-2 bg-zinc-950 border border-white/10 rounded-lg hover:border-emerald/50 transition-all group"
+                >
+                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest group-hover:text-zinc-200">Select Asset</span>
+                  <ChevronDown size={14} className={`text-zinc-500 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} />
+                </button>
+                
+                <AnimatePresence>
+                  {isDropdownOpen && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 5 }}
+                      className="absolute right-0 mt-2 w-48 bg-zinc-900 border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden"
+                    >
+                      {MAJOR_PAIRS.map((pair) => (
+                        <button
+                          key={pair.value}
+                          onClick={() => {
+                            setSymbol(pair.value);
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-3 text-[10px] font-bold uppercase tracking-widest transition-all ${
+                            symbol === pair.value ? "bg-emerald/10 text-emerald" : "text-zinc-500 hover:bg-white/5 hover:text-zinc-200"
+                          }`}
+                        >
+                          {pair.label}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
-            <TVWidget symbol={symbol} type="chart" />
+
+            {/* Fixed Height Chart Container */}
+            <div className="flex-1 bg-[#09090b]">
+              <TVWidget symbol={symbol} type="chart" />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="terminal-card p-6 min-h-[400px]">
-              <div className="flex items-center gap-3 mb-6">
-                <Calendar className="text-emerald" size={16} />
-                <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">Economic Events</h3>
+            <div className="terminal-card p-6 h-[380px] flex flex-col border-white/5">
+              <div className="flex items-center gap-3 mb-4">
+                <Calendar className="text-emerald" size={14} />
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Economic Events</h3>
               </div>
-              <TVWidget type="calendar" height={350} />
+              <div className="flex-1 overflow-hidden">
+                <TVWidget type="calendar" height={300} />
+              </div>
             </div>
-            <div className="terminal-card p-6 min-h-[400px]">
-              <div className="flex items-center gap-3 mb-6">
-                <TrendingUp className="text-emerald" size={16} />
-                <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">Market Movers (US)</h3>
+            <div className="terminal-card p-6 h-[380px] flex flex-col border-white/5">
+              <div className="flex items-center gap-3 mb-4">
+                <TrendingUp className="text-emerald" size={14} />
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Market Movers</h3>
               </div>
-              <TVWidget type="movers" height={350} />
+              <div className="flex-1 overflow-hidden">
+                <TVWidget type="movers" height={300} />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Intelligence Sidebar */}
+        {/* Right Intelligence Panel */}
         <div className="lg:col-span-3 space-y-6">
-          <div className="terminal-card p-6 min-h-[450px]">
+          <div className="terminal-card p-6 h-[450px] flex flex-col border-white/5">
             <div className="flex items-center gap-3 mb-6">
-              <Activity className="text-emerald" size={16} />
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">Technical Gauge</h3>
+              <Activity className="text-emerald" size={14} />
+              <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Technical Gauge</h3>
             </div>
-            <TVWidget symbol={symbol} type="gauge" height={350} />
+            <div className="flex-1 overflow-hidden">
+              <TVWidget symbol={symbol} type="gauge" height={350} />
+            </div>
           </div>
 
-          <div className="terminal-card p-6">
+          <div className="terminal-card p-6 border-white/5 bg-zinc-900/30">
             <div className="flex items-center gap-3 mb-6">
-              <BarChart3 className="text-emerald" size={16} />
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">Asset Profile</h3>
+              <Activity className="text-emerald" size={14} />
+              <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Market Pulse</h3>
             </div>
             <div className="space-y-4">
-              <div className="p-4 bg-zinc-950 rounded border border-white/5">
-                <p className="text-[10px] text-zinc-500 uppercase font-bold mb-1">Sentiment Index</p>
-                <div className="flex justify-between items-baseline">
-                  <span className="text-lg font-black text-emerald">BULLISH</span>
-                  <span className="text-xs font-mono text-zinc-500">72% Buy</span>
-                </div>
+              <div className="p-4 bg-zinc-950 rounded border border-white/5 flex flex-col gap-1">
+                <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Sentiment</span>
+                <span className="text-sm font-black text-emerald">MODERATE BULLISH</span>
               </div>
-              <div className="p-4 bg-zinc-950 rounded border border-white/5">
-                <p className="text-[10px] text-zinc-500 uppercase font-bold mb-1">24h Volatility</p>
-                <div className="flex justify-between items-baseline">
-                  <span className="text-lg font-black text-white">1.24%</span>
-                  <span className="text-xs font-mono text-soft-rose">High Risk</span>
-                </div>
+              <div className="p-4 bg-zinc-950 rounded border border-white/5 flex flex-col gap-1">
+                <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Volatility</span>
+                <span className="text-sm font-black text-white">LOW DENSITY</span>
               </div>
-            </div>
-          </div>
-
-          {/* Ad Slot */}
-          <div className="border border-dashed border-white/10 rounded-xl p-6 flex flex-col items-center justify-center bg-white/[0.01]">
-            <span className="text-[10px] font-bold text-zinc-800 uppercase tracking-widest mb-3">Institutional Ad</span>
-            <div className="w-full h-[150px] bg-zinc-950/50 rounded border border-white/5 flex items-center justify-center">
-              <span className="text-[10px] text-zinc-900 font-bold tracking-[0.3em]">300 x 250</span>
             </div>
           </div>
         </div>
@@ -162,7 +141,7 @@ function DashboardContent() {
 
 export default function DashboardPage() {
   return (
-    <Suspense fallback={<div className="flex-1 flex items-center justify-center"><Activity className="animate-spin text-emerald" /></div>}>
+    <Suspense fallback={<div className="flex-1 flex items-center justify-center bg-background"><Activity className="animate-spin text-emerald" /></div>}>
       <DashboardContent />
     </Suspense>
   );

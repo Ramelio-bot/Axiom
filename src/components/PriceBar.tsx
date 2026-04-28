@@ -20,7 +20,7 @@ export default function PriceBar() {
   const [assets, setAssets] = useState<Asset[]>(DEFAULT_ASSETS);
   const [isFetching, setIsFetching] = useState(false);
 
-  // 1. Real-time Clock (Ticks every second)
+  // 1. Real-time Clock
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date();
@@ -40,26 +40,18 @@ export default function PriceBar() {
     return () => clearInterval(timer);
   }, []);
 
-  // 2. Price Feed Integration (Simulated / API Shell)
+  // 2. Price Feed Simulation
   const fetchPrices = useCallback(async () => {
     setIsFetching(true);
-    
-    // Simulate API Delay
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     try {
-      // Logic for Twelve Data would go here:
-      // const res = await fetch(`https://api.twelvedata.com/price?symbol=XAU/USD,EUR/USD,GBP/USD,USD/JPY&apikey=YOUR_KEY`);
-      // const data = await res.json();
-      
-      // For now, simulate live price fluctuations
       const newAssets = assets.map(asset => {
         const currentPrice = parseFloat(asset.price);
         const fluctuation = (Math.random() - 0.5) * (currentPrice * 0.0005);
         const newPrice = (currentPrice + fluctuation).toFixed(asset.name.includes("JPY") ? 2 : 5);
         return { ...asset, price: newPrice };
       });
-      
       setAssets(newAssets);
     } catch (error) {
       console.error("Failed to fetch prices:", error);
@@ -68,20 +60,19 @@ export default function PriceBar() {
     }
   }, [assets]);
 
-  // 3. Refresh Logic (Every 2 minutes)
   useEffect(() => {
-    fetchPrices(); // Initial fetch
-    const interval = setInterval(fetchPrices, 120000); // 2 minutes
+    fetchPrices();
+    const interval = setInterval(fetchPrices, 120000);
     return () => clearInterval(interval);
   }, [fetchPrices]);
 
   return (
-    <div className="h-12 border-b border-border-thin flex items-center px-8 justify-between bg-background/50 backdrop-blur-terminal sticky top-0 z-20">
-      <div className="flex items-center gap-10">
+    <div className="h-12 border-b border-white/5 flex items-center px-10 justify-between bg-background/50 backdrop-blur-xl sticky top-0 z-20 overflow-hidden">
+      <div className="flex items-center gap-12 overflow-x-auto no-scrollbar">
         {assets.map((asset, index) => (
-          <div key={index} className="flex items-center gap-4">
-            <span className="text-[10px] font-bold text-zinc-500 tracking-wider">{asset.name}</span>
-            <span className="font-mono text-xs font-semibold tracking-tight tabular-nums text-zinc-100">{asset.price}</span>
+          <div key={index} className="flex items-center gap-4 shrink-0">
+            <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">{asset.name}</span>
+            <span className="font-mono text-xs font-bold text-white tabular-nums">{asset.price}</span>
             <span className={`text-[10px] font-bold ${asset.change.startsWith("+") ? "text-emerald" : "text-soft-rose"}`}>
               {asset.change}
             </span>
@@ -89,15 +80,15 @@ export default function PriceBar() {
         ))}
       </div>
 
-      <div className="flex items-center gap-6">
-        <div className="flex items-center gap-2.5">
-          <div className={`pulsing-dot ${isFetching ? "animate-ping scale-125" : ""}`} />
-          <span className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.15em]">
-            {isFetching ? "Updating Feed..." : "Market Connectivity"}
+      <div className="flex items-center gap-8 shrink-0 bg-background/80 pl-8 ml-4">
+        <div className="flex items-center gap-3">
+          <div className={`pulsing-dot ${isFetching ? "animate-pulse" : ""}`} />
+          <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em] whitespace-nowrap">
+            {isFetching ? "Syncing Feed" : "Connectivity"}
           </span>
         </div>
-        <div className="text-[10px] text-zinc-500 font-medium uppercase tracking-widest font-mono min-w-[180px] text-right">
-          {time || "Initializing..."}
+        <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest font-mono min-w-[140px] text-right">
+          {time || "Syncing..."}
         </div>
       </div>
     </div>

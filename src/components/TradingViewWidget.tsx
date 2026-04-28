@@ -36,13 +36,15 @@ export default function TradingViewWidget({ symbol }: TradingViewWidgetProps) {
       "gridColor": "rgba(42, 46, 57, 0.06)",
       "hide_top_toolbar": false,
       "save_image": false,
+      "height": 650,
     });
     
     container.current.appendChild(script);
   }, [symbol]);
 
   return (
-    <div className="w-full h-full min-h-[500px] flex flex-col">
+    <div className="w-full h-full min-h-[650px] flex flex-col">
+
       <div className="tradingview-widget-container flex-1" ref={container} style={{ height: "100%", width: "100%" }}>
         <div className="tradingview-widget-container__widget" style={{ height: "calc(100% - 32px)", width: "100%" }}></div>
       </div>

@@ -2,69 +2,102 @@
 
 import React, { useEffect, useRef } from 'react';
 
-export default function TradingViewWidget() {
+interface Props {
+  symbol?: string;
+  type?: 'chart' | 'gauge' | 'calendar' | 'movers';
+  height?: number;
+}
+
+export default function TradingViewWidget({ symbol = "FX:EURUSD", type = 'chart', height = 450 }: Props) {
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!container.current) return;
     
-    // Check if script is already present to avoid duplicates
-    if (container.current.querySelector('script')) return;
+    // Cleanup previous widget
+    container.current.innerHTML = '';
 
     const script = document.createElement("script");
-    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js";
     script.type = "text/javascript";
     script.async = true;
-    script.innerHTML = JSON.stringify({
-      "symbols": [
-        ["FX:EURUSD|1D"],
-        ["FX:GBPUSD|1D"],
-        ["OANDA:XAUUSD|1D"],
-        ["FX:USDJPY|1D"]
-      ],
-      "chartOnly": false,
-      "width": "100%",
-      "height": "400",
-      "locale": "en",
-      "colorTheme": "dark",
-      "autosize": true,
-      "showVolume": false,
-      "showMA": false,
-      "hideDateRanges": false,
-      "hideMarketStatus": false,
-      "hideSymbolLogo": false,
-      "scalePosition": "right",
-      "scaleMode": "Normal",
-      "fontFamily": "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
-      "fontSize": "10",
-      "noTimeScale": false,
-      "valuesTracking": "1",
-      "changeMode": "price-and-percent",
-      "chartType": "area",
-      "maLineColor": "#2962FF",
-      "maLineWidth": 1,
-      "maLength": 9,
-      "backgroundColor": "#09090b",
-      "widgetFontColor": "rgba(255, 255, 255, 0.7)",
-      "gridLineColor": "rgba(42, 46, 57, 0.06)",
-      "lineWidth": 2,
-      "lineColor": "#10b981",
-      "topColor": "rgba(16, 185, 129, 0.15)",
-      "bottomColor": "rgba(16, 185, 129, 0)",
-      "dateFormat": "MMM dd, yyyy",
-      "timeHoursFormat": "24h"
-    });
+
+    switch (type) {
+      case 'chart':
+        script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+        script.innerHTML = JSON.stringify({
+          "autosize": true,
+          "symbol": symbol,
+          "interval": "D",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en",
+          "enable_publishing": false,
+          "allow_symbol_change": true,
+          "calendar": false,
+          "support_host": "https://www.tradingview.com",
+          "backgroundColor": "#09090b",
+          "gridLineColor": "rgba(42, 46, 57, 0.06)",
+        });
+        break;
+      case 'gauge':
+        script.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
+        script.innerHTML = JSON.stringify({
+          "interval": "1D",
+          "width": "100%",
+          "isTransparent": true,
+          "height": height,
+          "symbol": symbol,
+          "showIntervalTabs": true,
+          "displayMode": "single",
+          "locale": "en",
+          "colorTheme": "dark"
+        });
+        break;
+      case 'calendar':
+        script.src = "https://s3.tradingview.com/external-embedding/embed-widget-events.js";
+        script.innerHTML = JSON.stringify({
+          "colorTheme": "dark",
+          "isTransparent": true,
+          "width": "100%",
+          "height": height,
+          "locale": "en",
+          "importanceFilter": "-1,0,1"
+        });
+        break;
+      case 'movers':
+        script.src = "https://s3.tradingview.com/external-embedding/embed-widget-hotlists.js";
+        script.innerHTML = JSON.stringify({
+          "colorTheme": "dark",
+          "dateRange": "12M",
+          "exchange": "US",
+          "showChart": true,
+          "locale": "en",
+          "largeChartUrl": "",
+          "isTransparent": true,
+          "showSymbolLogo": true,
+          "showFloatingTooltip": false,
+          "width": "100%",
+          "height": height,
+          "plotLineColorRegular": "rgba(46, 120, 255, 1)",
+          "plotLineColorHover": "rgba(33, 150, 243, 1)",
+          "gridLineColor": "rgba(42, 46, 57, 0.06)",
+          "scaleFontColor": "rgba(209, 212, 220, 1)",
+          "belowLineFillColorGrowing": "rgba(41, 98, 255, 0.12)",
+          "belowLineFillColorFalling": "rgba(41, 98, 255, 0.12)",
+          "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
+          "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
+          "symbolActiveColor": "rgba(41, 98, 255, 0.12)"
+        });
+        break;
+    }
+    
     container.current.appendChild(script);
-  }, []);
+  }, [symbol, type, height]);
 
   return (
-    <div className="mt-8 terminal-card p-4 overflow-hidden min-h-[400px]">
-      <div className="flex items-center gap-3 mb-4 px-4 py-2">
-        <h3 className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.3em]">Market Intelligence Data</h3>
-      </div>
-      <div className="tradingview-widget-container" ref={container}>
-        <div className="tradingview-widget-container__widget"></div>
-      </div>
+    <div className="tradingview-widget-container" ref={container}>
+      <div className="tradingview-widget-container__widget"></div>
     </div>
   );
 }

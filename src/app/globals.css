@@ -1,89 +1,86 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #09090b; /* Zinc-950 */
-  --foreground: #fafafa;
-  --emerald: #10b981;
-  --soft-rose: #f43f5e;
-  --slate-900: #0f172a;
-  --zinc-900: #18181b;
-  --border-ultra-thin: rgba(255, 255, 255, 0.05);
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-emerald: var(--emerald);
-  --color-soft-rose: var(--soft-rose);
-  --color-slate-900: var(--slate-900);
-  --color-zinc-900: var(--zinc-900);
-  --color-border-thin: var(--border-ultra-thin);
-  
-  --font-inter: var(--font-inter);
-  --font-mono: var(--font-jetbrains-mono);
-  
-  --backdrop-blur-terminal: 24px;
+@layer base {
+  :root {
+    --background: #09090b; /* Zinc-950 */
+    --foreground: #fafafa; /* Zinc-50 - Ultra Contrast */
+    --emerald: #34d399;    /* Emerald-400 - Brighter */
+    --soft-rose: #fb7185;  /* Rose-400 */
+    --zinc-900: #18181b;
+    --border-ultra-thin: rgba(255, 255, 255, 0.1);
+    --backdrop-blur: 24px;
+  }
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
-  font-size: 16px; /* 1rem = 16px base */
-  font-weight: 400; /* Regular for main content */
+  font-size: 16px;
+  font-weight: 400;
   line-height: 1.6;
 }
 
-/* Scaled sizes for professional readability */
-.text-xs { font-size: 12px; }
-.text-sm { font-size: 14px; }
-.text-base { font-size: 16px; }
-.text-lg { font-size: 18px; }
-.text-xl { font-size: 20px; }
-
-.terminal-card {
-  background-color: var(--zinc-900);
-  backdrop-filter: blur(24px);
-  border: 1px solid var(--border-ultra-thin);
-  border-radius: 12px;
-  color: #e4e4e7; /* Zinc-300 for card content */
+/* Financial Data Precision Alignment */
+.font-mono {
+  font-family: var(--font-jetbrains-mono), monospace;
 }
 
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom UI Components */
+.terminal-card {
+  background-color: var(--zinc-900);
+  backdrop-filter: blur(var(--backdrop-blur));
+  border: 1px solid var(--border-ultra-thin);
+  border-radius: 12px;
+  color: var(--foreground);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
 
 .input-inner-shadow {
   box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 }
 
 .pulsing-dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   background-color: var(--emerald);
   border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 10px var(--emerald);
   animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-  }
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
 }
 
+/* Scrollbar Styling */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: var(--border-ultra-thin);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
 }
 
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
 
+/* High Contrast Utilities */
+.text-zinc-500 { color: #d4d4d8 !important; } /* Actually Zinc-300 */
+.text-zinc-600 { color: #a1a1aa !important; } /* Actually Zinc-400 */
+.text-emerald { color: var(--emerald) !important; }
+.text-soft-rose { color: var(--soft-rose) !important; }

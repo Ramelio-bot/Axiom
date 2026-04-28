@@ -4,52 +4,55 @@ import PositionSizer from "@/components/PositionSizer";
 
 export default function Home() {
   return (
-    <div className="flex h-screen overflow-hidden bg-obsidian text-white">
-      {/* Sidebar - Fixed on the left */}
+    <div className="flex h-screen overflow-hidden bg-background text-foreground font-inter">
+      {/* Sidebar */}
       <Sidebar />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-        {/* Top Price Bar */}
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto custom-scrollbar">
         <PriceBar />
 
-        {/* Dynamic Page Content */}
-        <main className="flex-1 p-8">
-          <div className="max-w-6xl mx-auto">
-            <div className="mb-12">
-              <h1 className="text-3xl font-bold tracking-tight mb-2">Trading Terminal</h1>
-              <p className="text-gray-500 font-medium italic text-sm">Welcome back, Commander. Markets are currently volatile.</p>
+        <main className="flex-1 p-10 max-w-7xl mx-auto w-full">
+          <header className="mb-12 flex items-end justify-between">
+            <div>
+              <p className="text-[10px] font-bold text-emerald uppercase tracking-[0.4em] mb-2">Institutional Access</p>
+              <h1 className="text-3xl font-semibold tracking-tight text-zinc-100">Trading Terminal</h1>
             </div>
-            
-            {/* Position Sizer Tool */}
-            <PositionSizer />
-            
-            {/* Placeholder for other components */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 opacity-30 pointer-events-none">
-              <div className="h-48 glass-card border-border-muted p-6">
-                <div className="w-1/3 h-4 bg-white/10 rounded mb-4" />
-                <div className="w-full h-24 bg-white/5 rounded" />
-              </div>
-              <div className="h-48 glass-card border-border-muted p-6">
-                <div className="w-1/3 h-4 bg-white/10 rounded mb-4" />
-                <div className="w-full h-24 bg-white/5 rounded" />
-              </div>
+            <div className="text-right">
+              <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">Axiom Terminal</p>
+              <p className="text-[10px] text-zinc-600 font-medium">v1.0.4-stable</p>
             </div>
-          </div>
+          </header>
+          
+          <PositionSizer />
+          
+          {/* Dashboard Preview Section (Locked/Placeholder) */}
+          <section className="mt-12">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">Market Overview</h3>
+              <span className="text-[10px] text-zinc-600 font-bold uppercase cursor-not-allowed">View All Assets</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 opacity-20 grayscale pointer-events-none">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-32 terminal-card border-dashed" />
+              ))}
+            </div>
+          </section>
         </main>
 
-        {/* Footer info bar */}
-        <div className="h-8 border-t border-border-muted bg-obsidian flex items-center px-8 justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-[9px] font-bold text-gray-600 uppercase tracking-widest">Connectivity: <span className="text-neon-mint">Excellent</span></span>
-            <span className="text-[9px] font-bold text-gray-600 uppercase tracking-widest">Latency: <span className="text-neon-mint">12ms</span></span>
+        <footer className="h-10 border-t border-border-thin bg-background/50 flex items-center px-8 justify-between">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <div className="w-1 h-1 rounded-full bg-emerald" />
+              <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">System Online</span>
+            </div>
+            <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Latency: 12ms</span>
           </div>
-          <div className="text-[9px] font-bold text-gray-600 uppercase tracking-widest">
+          <div className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">
             Axiom Intelligence Systems © 2026
           </div>
-        </div>
+        </footer>
       </div>
     </div>
   );
 }
-

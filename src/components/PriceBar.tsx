@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 
 const assets = [
   { name: "XAUUSD", price: "2324.52", change: "+1.24%" },
@@ -12,13 +11,13 @@ const assets = [
 
 export default function PriceBar() {
   return (
-    <div className="h-14 border-b border-border-muted flex items-center px-8 justify-between bg-obsidian/50 backdrop-blur-md sticky top-0 z-20">
+    <div className="h-12 border-b border-border-thin flex items-center px-8 justify-between bg-background/50 backdrop-blur-terminal sticky top-0 z-20">
       <div className="flex items-center gap-10">
         {assets.map((asset, index) => (
-          <div key={index} className="flex items-center gap-3">
-            <span className="text-[10px] font-black text-gray-500 tracking-widest">{asset.name}</span>
-            <span className="font-mono text-sm font-bold tracking-tight">{asset.price}</span>
-            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${asset.change.startsWith("+") ? "text-neon-mint bg-neon-mint/10" : "text-soft-rose bg-soft-rose/10"}`}>
+          <div key={index} className="flex items-center gap-4">
+            <span className="text-[10px] font-bold text-zinc-500 tracking-wider">{asset.name}</span>
+            <span className="font-mono text-xs font-semibold tracking-tight tabular-nums">{asset.price}</span>
+            <span className={`text-[10px] font-bold ${asset.change.startsWith("+") ? "text-emerald" : "text-soft-rose"}`}>
               {asset.change}
             </span>
           </div>
@@ -26,12 +25,12 @@ export default function PriceBar() {
       </div>
 
       <div className="flex items-center gap-6">
-        <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
+        <div className="flex items-center gap-2.5">
           <div className="pulsing-dot" />
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Market Open</span>
+          <span className="text-[10px] font-semibold text-zinc-400 uppercase tracking-[0.15em]">Market Connectivity</span>
         </div>
-        <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest font-mono">
-          28 APR 2026 | 14:38:02 UTC
+        <div className="text-[10px] text-zinc-500 font-medium uppercase tracking-widest font-mono">
+          14:38:02 UTC
         </div>
       </div>
     </div>

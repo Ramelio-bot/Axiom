@@ -25,57 +25,52 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="w-64 h-full border-r border-white/5 flex flex-col p-6 bg-[#09090b] z-10">
-      <Link href="/" className="flex items-center gap-3 mb-12 px-4 transition-opacity">
-        <div className="w-6 h-6 bg-emerald rounded-sm flex items-center justify-center">
-          <BarChart3 className="text-zinc-950" size={14} strokeWidth={3} />
+    <div className="w-64 h-full border-r border-border-thin flex flex-col p-6 bg-background/80 backdrop-blur-terminal z-10">
+      <Link href="/" className="flex items-center gap-3 mb-12 px-2 hover:opacity-80 transition-opacity">
+        <div className="w-8 h-8 bg-emerald rounded flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+          <BarChart3 className="text-zinc-950" size={18} strokeWidth={2.5} />
         </div>
-        <h1 className="text-sm font-bold tracking-tight text-zinc-50">AXIOM</h1>
+        <h1 className="text-lg font-semibold tracking-tight text-zinc-100">AXIOM</h1>
       </Link>
 
-      <nav className="flex-1 space-y-2">
+      <nav className="flex-1 space-y-1">
         {navItems.map((item, index) => {
           const isActive = pathname === item.href;
           return (
             <Link
               key={index}
               href={item.href}
-              className={`w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 group relative ${
-                isActive ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-200"
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-300 group relative ${
+                isActive 
+                  ? "bg-emerald/10 text-emerald font-medium border border-emerald/20" 
+                  : "text-zinc-500 hover:bg-white/5 hover:text-zinc-200"
               }`}
             >
               {isActive && (
-                <div className="absolute left-0 w-[2px] h-4 bg-emerald rounded-full" />
+                <div className="absolute left-0 w-1 h-4 bg-emerald rounded-full -ml-1" />
               )}
-              <item.icon size={16} className={isActive ? "text-emerald" : "text-zinc-500 group-hover:text-zinc-300"} />
-              <span className="text-xs font-medium tracking-wide">{item.label}</span>
+              <item.icon size={16} className={isActive ? "text-emerald" : "text-zinc-500 group-hover:text-zinc-200"} />
+              <span className="text-sm">{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
-      <div className="mt-auto pt-6 border-t border-white/5 space-y-4">
-        {/* Ad Slot */}
-        <div className="border border-dashed border-white/5 rounded-md p-4 flex flex-col items-center justify-center bg-white/[0.01]">
+      <div className="mt-auto pt-6 border-t border-border-thin space-y-1">
+        {/* Sidebar Ad Slot */}
+        <div className="mb-4 border border-dashed border-white/5 rounded-lg p-4 flex flex-col items-center justify-center bg-white/[0.01]">
           <span className="text-[8px] font-bold text-zinc-700 uppercase tracking-widest mb-1">Advertisement</span>
-          <div className="w-full h-16 bg-zinc-950 rounded flex items-center justify-center">
+          <div className="w-full h-20 bg-zinc-950/50 rounded flex items-center justify-center">
             <span className="text-[9px] text-zinc-800 font-bold">300 x 250</span>
           </div>
         </div>
 
-        <Link 
-          href="/settings" 
-          className={`w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 group relative ${
-            pathname === "/settings" ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-200"
-          }`}
-        >
-          {pathname === "/settings" && (
-            <div className="absolute left-0 w-[2px] h-4 bg-emerald rounded-full" />
-          )}
-          <Settings size={16} className={pathname === "/settings" ? "text-emerald" : "text-zinc-500 group-hover:text-zinc-300"} />
-          <span className="text-xs font-medium tracking-wide">Settings</span>
+        <Link href="/settings" className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-300 group ${pathname === "/settings" ? "bg-emerald/10 text-emerald" : "text-zinc-500 hover:bg-white/5 hover:text-zinc-200"}`}>
+          <Settings size={16} />
+          <span className="text-sm">Settings</span>
         </Link>
       </div>
     </div>
+
   );
 }

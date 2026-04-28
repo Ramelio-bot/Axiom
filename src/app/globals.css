@@ -1,45 +1,54 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  :root {
-    --background: #09090b; /* Zinc-950 */
-    --foreground: #fafafa; /* Zinc-50 - Ultra Contrast */
-    --emerald: #10b981;    /* Standard Emerald */
-    --soft-rose: #f43f5e;  /* Standard Rose */
-    --zinc-900: #18181b;
-    --border-ultra-thin: rgba(255, 255, 255, 0.05);
-    --backdrop-blur: 24px;
-  }
+:root {
+  --background: #09090b; /* Zinc-950 */
+  --foreground: #fafafa;
+  --emerald: #10b981;
+  --soft-rose: #f43f5e;
+  --slate-900: #0f172a;
+  --zinc-900: #18181b;
+  --border-ultra-thin: rgba(255, 255, 255, 0.05);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-emerald: var(--emerald);
+  --color-soft-rose: var(--soft-rose);
+  --color-slate-900: var(--slate-900);
+  --color-zinc-900: var(--zinc-900);
+  --color-border-thin: var(--border-ultra-thin);
+  
+  --font-inter: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  
+  --backdrop-blur-terminal: 24px;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 16px; /* 1rem = 16px base */
+  font-weight: 400; /* Regular for main content */
   line-height: 1.6;
 }
 
-/* Financial Data Precision Alignment */
-.font-mono {
-  font-family: var(--font-jetbrains-mono), monospace;
-}
+/* Scaled sizes for professional readability */
+.text-xs { font-size: 12px; }
+.text-sm { font-size: 14px; }
+.text-base { font-size: 16px; }
+.text-lg { font-size: 18px; }
+.text-xl { font-size: 20px; }
 
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
-}
-
-/* Custom UI Components */
 .terminal-card {
-  background-color: rgba(24, 24, 27, 0.5); /* Zinc-900/50 */
-  backdrop-filter: blur(var(--backdrop-blur));
+  background-color: var(--zinc-900);
+  backdrop-filter: blur(24px);
   border: 1px solid var(--border-ultra-thin);
-  border-radius: 8px;
-  color: var(--foreground);
+  border-radius: 12px;
+  color: #e4e4e7; /* Zinc-300 for card content */
 }
+
 
 .input-inner-shadow {
   box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.5);
@@ -50,33 +59,31 @@ body {
   height: 6px;
   background-color: var(--emerald);
   border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  animation: pulse 2s infinite;
 }
 
-/* Scrollbar Styling */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
-
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
-
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--border-ultra-thin);
   border-radius: 10px;
 }
 
-/* Typography & Contrast */
-.text-zinc-500 { color: #71717a !important; } 
-.text-zinc-600 { color: #52525b !important; } 
-.text-emerald { color: var(--emerald) !important; }
-.text-soft-rose { color: var(--soft-rose) !important; }
 
-/* No-ScrollBar */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}

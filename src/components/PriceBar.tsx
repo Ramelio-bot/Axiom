@@ -20,7 +20,6 @@ export default function PriceBar() {
   const [assets, setAssets] = useState<Asset[]>(DEFAULT_ASSETS);
   const [isFetching, setIsFetching] = useState(false);
 
-  // 1. Real-time Clock
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date();
@@ -40,11 +39,9 @@ export default function PriceBar() {
     return () => clearInterval(timer);
   }, []);
 
-  // 2. Price Feed Simulation
   const fetchPrices = useCallback(async () => {
     setIsFetching(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
-
     try {
       const newAssets = assets.map(asset => {
         const currentPrice = parseFloat(asset.price);
@@ -53,9 +50,7 @@ export default function PriceBar() {
         return { ...asset, price: newPrice };
       });
       setAssets(newAssets);
-    } catch (error) {
-      console.error("Failed to fetch prices:", error);
-    } finally {
+    } catch (error) {} finally {
       setIsFetching(false);
     }
   }, [assets]);
@@ -67,12 +62,12 @@ export default function PriceBar() {
   }, [fetchPrices]);
 
   return (
-    <div className="h-12 border-b border-white/5 flex items-center px-10 justify-between bg-background/50 backdrop-blur-xl sticky top-0 z-20 overflow-hidden">
-      <div className="flex items-center gap-12 overflow-x-auto no-scrollbar">
+    <div className="h-10 border-b border-white/5 flex items-center px-10 justify-between bg-[#09090b] sticky top-0 z-20">
+      <div className="flex items-center gap-10 overflow-x-auto no-scrollbar">
         {assets.map((asset, index) => (
-          <div key={index} className="flex items-center gap-4 shrink-0">
+          <div key={index} className="flex items-center gap-3 shrink-0">
             <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">{asset.name}</span>
-            <span className="font-mono text-xs font-bold text-white tabular-nums">{asset.price}</span>
+            <span className="font-mono text-[11px] font-bold text-zinc-50 tabular-nums">{asset.price}</span>
             <span className={`text-[10px] font-bold ${asset.change.startsWith("+") ? "text-emerald" : "text-soft-rose"}`}>
               {asset.change}
             </span>
@@ -80,14 +75,14 @@ export default function PriceBar() {
         ))}
       </div>
 
-      <div className="flex items-center gap-8 shrink-0 bg-background/80 pl-8 ml-4">
-        <div className="flex items-center gap-3">
-          <div className={`pulsing-dot ${isFetching ? "animate-pulse" : ""}`} />
-          <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em] whitespace-nowrap">
-            {isFetching ? "Syncing Feed" : "Connectivity"}
+      <div className="flex items-center gap-6 shrink-0 ml-4">
+        <div className="flex items-center gap-2">
+          <div className={`w-1.5 h-1.5 rounded-full ${isFetching ? "bg-emerald animate-pulse" : "bg-emerald/40"}`} />
+          <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">
+            {isFetching ? "Syncing" : "Active"}
           </span>
         </div>
-        <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest font-mono min-w-[140px] text-right">
+        <div className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest font-mono">
           {time || "Syncing..."}
         </div>
       </div>

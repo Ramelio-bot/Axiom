@@ -6,10 +6,10 @@
   :root {
     --background: #09090b; /* Zinc-950 */
     --foreground: #fafafa; /* Zinc-50 - Ultra Contrast */
-    --emerald: #34d399;    /* Emerald-400 - Brighter */
-    --soft-rose: #fb7185;  /* Rose-400 */
+    --emerald: #10b981;    /* Standard Emerald */
+    --soft-rose: #f43f5e;  /* Standard Rose */
     --zinc-900: #18181b;
-    --border-ultra-thin: rgba(255, 255, 255, 0.1);
+    --border-ultra-thin: rgba(255, 255, 255, 0.05);
     --backdrop-blur: 24px;
   }
 }
@@ -34,12 +34,11 @@ body {
 
 /* Custom UI Components */
 .terminal-card {
-  background-color: var(--zinc-900);
+  background-color: rgba(24, 24, 27, 0.5); /* Zinc-900/50 */
   backdrop-filter: blur(var(--backdrop-blur));
   border: 1px solid var(--border-ultra-thin);
-  border-radius: 12px;
+  border-radius: 8px;
   color: var(--foreground);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
 .input-inner-shadow {
@@ -47,23 +46,15 @@ body {
 }
 
 .pulsing-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background-color: var(--emerald);
   border-radius: 50%;
-  box-shadow: 0 0 10px var(--emerald);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(0.95); opacity: 0.8; }
-  50% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(0.95); opacity: 0.8; }
 }
 
 /* Scrollbar Styling */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
@@ -75,12 +66,17 @@ body {
   border-radius: 10px;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* High Contrast Utilities */
-.text-zinc-500 { color: #d4d4d8 !important; } /* Actually Zinc-300 */
-.text-zinc-600 { color: #a1a1aa !important; } /* Actually Zinc-400 */
+/* Typography & Contrast */
+.text-zinc-500 { color: #71717a !important; } 
+.text-zinc-600 { color: #52525b !important; } 
 .text-emerald { color: var(--emerald) !important; }
 .text-soft-rose { color: var(--soft-rose) !important; }
+
+/* No-ScrollBar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

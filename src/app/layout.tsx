@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,8 +27,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const adsenseId = process.env.NEXT_PUBLIC_ADSENSE_ID;
+
   return (
     <html lang="en" className="h-full">
+      <head>
+        {adsenseId && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
+            crossOrigin="anonymous"
+            strategy="lazyOnload"
+          />
+        )}
+      </head>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground min-h-full flex h-screen overflow-hidden`}
       >
@@ -41,5 +54,6 @@ export default function RootLayout({
     </html>
   );
 }
+
 
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { TrendingUp, Activity, Search, Star, Globe, Layout, Cpu, ArrowRight } from "lucide-react";
+import { TrendingUp, Activity, Search, Star, Globe, Layout, Cpu, ArrowRight, Calculator } from "lucide-react";
 import { ASSETS, Asset } from "@/lib/assets";
 import Combobox from "@/components/Combobox";
 
@@ -32,8 +32,15 @@ export default function DashboardPage() {
           <p className="text-[10px] font-bold text-emerald uppercase tracking-[0.4em] mb-2">Global Asset Intelligence</p>
           <h1 className="text-4xl font-semibold tracking-tight text-zinc-50">Market Dashboard</h1>
         </div>
-        <div className="flex items-center gap-3 text-zinc-500">
-          <div className="flex items-center gap-2 px-4 py-1.5 bg-zinc-900/50 border border-white/5 rounded-full">
+        <div className="flex items-center gap-4">
+          <Link 
+            href="/position-sizer" 
+            className="flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-emerald/30 rounded-lg text-emerald hover:bg-emerald/10 transition-all shadow-[0_0_15px_rgba(16,185,129,0.1)] group"
+          >
+            <Calculator size={14} className="group-hover:scale-110 transition-transform" />
+            <span className="text-[10px] font-bold uppercase tracking-widest">Instant Calculator</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-zinc-900/50 border border-white/5 rounded-full">
             <div className="w-2 h-2 rounded-full bg-emerald animate-pulse" />
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Live Engine Active</span>
           </div>
@@ -42,7 +49,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
         {/* Left Column: Monitoring & Chart (Dominant) */}
-        <div className="lg:col-span-9 space-y-6">
+        <div className="lg:col-span-9 space-y-6 order-1">
           <div className="terminal-card bg-zinc-900/40 border-white/10 overflow-hidden">
             <div className="p-8 pb-6 border-b border-white/5">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
@@ -83,10 +90,27 @@ export default function DashboardPage() {
           </div>
         </div>
 
-
         {/* Right Column: Insights & Stats */}
-        <div className="lg:col-span-3 space-y-8">
-          <div className="terminal-card p-10 bg-zinc-900/60 border-emerald/10 h-full flex flex-col">
+        <div className="lg:col-span-3 space-y-8 order-2">
+          {/* TOP CTA: Trade with Precision */}
+          <Link href="/position-sizer" className="block group">
+            <div className="terminal-card p-10 bg-emerald/5 border-emerald-500/20 group-hover:border-emerald-500/50 group-hover:bg-emerald-500/10 transition-all cursor-pointer shadow-[0_0_20px_rgba(16,185,129,0.05)]">
+              <div className="flex items-center justify-between mb-6">
+                <div className="p-3 bg-emerald/10 rounded-xl group-hover:bg-emerald/20 transition-colors">
+                  <Cpu size={24} className="text-emerald" />
+                </div>
+                <ArrowRight size={18} className="text-emerald/40 group-hover:text-emerald group-hover:translate-x-2 transition-all" />
+              </div>
+              <h4 className="text-lg font-bold text-zinc-50 mb-3 tracking-tight">Trade with Precision</h4>
+              <p className="text-sm text-zinc-400 leading-relaxed mb-8">Execute your institutional strategy. Calculate exact {selectedAsset.symbol} risk exposure instantly.</p>
+              <div className="w-full py-4 bg-zinc-950 border border-white/10 rounded-xl text-xs font-bold text-zinc-300 uppercase tracking-[0.3em] text-center group-hover:bg-emerald group-hover:text-zinc-950 transition-all shadow-xl">
+                Initialize Calculator
+              </div>
+            </div>
+          </Link>
+
+          {/* Institutional Pulse */}
+          <div className="terminal-card p-10 bg-zinc-900/60 border-white/5 h-full flex flex-col">
             <div className="flex items-center gap-3 mb-10">
               <Activity size={20} className="text-emerald" />
               <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-zinc-50">Institutional Pulse</h3>
@@ -135,22 +159,6 @@ export default function DashboardPage() {
               <div className="text-[11px] text-zinc-700 italic">Analytical Ad Placement Ready</div>
             </div>
           </div>
-
-          <Link href="/position-sizer" className="block group">
-            <div className="terminal-card p-10 bg-emerald/5 border-emerald/20 group-hover:border-emerald/50 group-hover:bg-emerald/10 transition-all cursor-pointer">
-              <div className="flex items-center justify-between mb-6">
-                <div className="p-3 bg-emerald/10 rounded-xl group-hover:bg-emerald/20 transition-colors">
-                  <Cpu size={24} className="text-emerald" />
-                </div>
-                <ArrowRight size={18} className="text-emerald/40 group-hover:text-emerald group-hover:translate-x-2 transition-all" />
-              </div>
-              <h4 className="text-lg font-bold text-zinc-50 mb-3">Trade with Precision</h4>
-              <p className="text-sm text-zinc-400 leading-relaxed mb-8">Execute your institutional strategy. Calculate exact {selectedAsset.symbol} risk exposure instantly.</p>
-              <div className="w-full py-4 bg-zinc-950 border border-white/10 rounded-xl text-xs font-bold text-zinc-300 uppercase tracking-[0.3em] text-center group-hover:bg-emerald group-hover:text-zinc-950 transition-all shadow-xl">
-                Initialize Calculator
-              </div>
-            </div>
-          </Link>
         </div>
       </div>
     </main>

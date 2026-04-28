@@ -18,7 +18,7 @@ const navItems = [
   { icon: Calculator, label: "Position Sizer", href: "/position-sizer" },
   { icon: Coins, label: "Pip Value", href: "/pip-value" },
   { icon: Clock, label: "Market Clock", href: "/market-clock" },
-  { icon: BookOpen, label: "Academy", href: "/education" },
+  { icon: BookOpen, label: "Academy", href: "/academy" },
 ];
 
 export default function Sidebar() {
@@ -65,11 +65,12 @@ export default function Sidebar() {
           </div>
         </div>
 
-        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-500 hover:bg-white/5 hover:text-zinc-200 transition-all duration-300">
+        <Link href="/settings" className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-300 group ${pathname === "/settings" ? "bg-emerald/10 text-emerald" : "text-zinc-500 hover:bg-white/5 hover:text-zinc-200"}`}>
           <Settings size={16} />
           <span className="text-sm">Settings</span>
-        </button>
+        </Link>
       </div>
     </div>
+
   );
 }

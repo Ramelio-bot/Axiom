@@ -1,3 +1,7 @@
 User-agent: *
 Allow: /
+
+User-agent: Mediapartners-Google
+Allow: /
+
 Sitemap: https://axiom-terminal.vercel.app/sitemap.xml

@@ -43,33 +43,35 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
         {/* Left Column: Monitoring & Chart (Dominant) */}
         <div className="lg:col-span-9 space-y-6">
-          <div className="terminal-card p-8 bg-zinc-900/40 border-white/10">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-10 pb-6 border-b border-white/5">
-              <div className="flex-1 max-w-lg">
-                <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3 block">Monitoring Asset</label>
-                <Combobox selected={selectedAsset} onSelect={handleAssetSelect} />
-              </div>
-              <div className="flex flex-col md:items-end">
-                <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3 block">Quick Access</label>
-                <div className="flex gap-2">
-                  {favorites.map((fav) => (
-                    <button
-                      key={fav.symbol}
-                      onClick={() => handleAssetSelect(fav)}
-                      className={`px-4 py-2 rounded-md text-[11px] font-mono font-bold transition-all border ${
-                        selectedAsset.symbol === fav.symbol
-                          ? "bg-emerald/10 border-emerald/40 text-emerald shadow-[0_0_15px_rgba(16,185,129,0.1)]"
-                          : "bg-zinc-950 border-white/5 text-zinc-500 hover:text-zinc-200 hover:border-white/20"
-                      }`}
-                    >
-                      {fav.symbol}
-                    </button>
-                  ))}
+          <div className="terminal-card bg-zinc-900/40 border-white/10 overflow-hidden">
+            <div className="p-8 pb-6 border-b border-white/5">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                <div className="flex-1 max-w-lg">
+                  <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3 block">Monitoring Asset</label>
+                  <Combobox selected={selectedAsset} onSelect={handleAssetSelect} />
+                </div>
+                <div className="flex flex-col md:items-end">
+                  <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3 block">Quick Access</label>
+                  <div className="flex gap-2">
+                    {favorites.map((fav) => (
+                      <button
+                        key={fav.symbol}
+                        onClick={() => handleAssetSelect(fav)}
+                        className={`px-4 py-2 rounded-md text-[11px] font-mono font-bold transition-all border ${
+                          selectedAsset.symbol === fav.symbol
+                            ? "bg-emerald/10 border-emerald/40 text-emerald shadow-[0_0_15px_rgba(16,185,129,0.1)]"
+                            : "bg-zinc-950 border-white/5 text-zinc-500 hover:text-zinc-200 hover:border-white/20"
+                        }`}
+                      >
+                        {fav.symbol}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="relative rounded-xl overflow-hidden border border-white/5 bg-zinc-950 min-h-[650px]">
+            <div className="relative h-[650px] bg-zinc-950">
               {isChanging && (
                 <div className="absolute inset-0 z-20 bg-zinc-950/60 backdrop-blur-md flex flex-col items-center justify-center transition-all">
                   <div className="w-12 h-12 border-4 border-emerald/10 border-t-emerald rounded-full animate-spin mb-6" />
@@ -80,6 +82,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
+
 
         {/* Right Column: Insights & Stats */}
         <div className="lg:col-span-3 space-y-8">

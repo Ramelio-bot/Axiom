@@ -13,7 +13,7 @@ export default function TradingViewWidget({ symbol }: TradingViewWidgetProps) {
     if (!container.current) return;
     
     // Clear previous widget
-    container.current.innerHTML = '<div class="tradingview-widget-container__widget"></div>';
+    container.current.innerHTML = '<div class="tradingview-widget-container__widget" style="height: 100%; width: 100%"></div>';
 
     const script = document.createElement("script");
     script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
@@ -36,17 +36,17 @@ export default function TradingViewWidget({ symbol }: TradingViewWidgetProps) {
       "gridColor": "rgba(42, 46, 57, 0.06)",
       "hide_top_toolbar": false,
       "save_image": false,
-      "height": 650,
+      "height": "100%",
+      "width": "100%"
     });
     
     container.current.appendChild(script);
   }, [symbol]);
 
   return (
-    <div className="w-full h-full min-h-[650px] flex flex-col">
-
+    <div className="w-full h-full flex flex-col">
       <div className="tradingview-widget-container flex-1" ref={container} style={{ height: "100%", width: "100%" }}>
-        <div className="tradingview-widget-container__widget" style={{ height: "calc(100% - 32px)", width: "100%" }}></div>
+        <div className="tradingview-widget-container__widget" style={{ height: "100%", width: "100%" }}></div>
       </div>
     </div>
   );

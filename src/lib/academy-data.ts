@@ -11,234 +11,322 @@ export interface AcademyArticle {
 export const ACADEMY_ARTICLES: AcademyArticle[] = [
   // Pillar 1: Risk Management
   {
+    title: "The 1% Rule: Professional Position Sizing Strategies",
+    slug: "the-1-percent-rule",
+    tag: "Risk Management",
+    description: "Understanding Asymmetrical Risk and why preserving capital is the only way to achieve long-term trading success.",
+    date: "April 28, 2026",
+    readTime: "9 min",
+    content: `
+      <h3>Introduction</h3>
+      <p>In the professional trading world, the <strong>1% Rule</strong> isn't just a suggestion—it's a survival protocol. Most retail traders fail not because their strategy is wrong, but because their risk management is non-existent. The core of this rule lies in understanding <strong>Asymmetrical Risk</strong>.</p>
+      
+      <h3>Core Concept: Asymmetrical Risk</h3>
+      <p>Asymmetrical risk refers to the fact that the more capital you lose, the exponentially harder it becomes to return to break-even. This is a mathematical trap that many never escape. Consider this: if you lose 10% of your account, you need an 11.1% gain to recover. However, if you lose 50%, you need a <strong>100% gain</strong> just to get back to where you started. By limiting your risk to 1%, you ensure that even a 10-trade losing streak only results in a ~10% drawdown, which is mathematically easy to recover from.</p>
+      
+      <h3>Technical Application</h3>
+      <p>To implement this, you must calculate your lot size for every single trade. Never use a "fixed lot" (e.g., always trading 0.10). Instead:</p>
+      <ul>
+        <li>Determine your <strong>Account Equity</strong>.</li>
+        <li>Calculate 1% of that equity (The Dollar Risk).</li>
+        <li>Measure the distance from your entry to your <strong>Technical Stop Loss</strong> in pips.</li>
+        <li>Use the <strong>Axiom Position Sizer</strong> to find the exact lot size that equals that dollar risk.</li>
+      </ul>
+      
+      <h3>Institutional Insight</h3>
+      <p>Hedge funds and prop firms view risk as their primary product. They don't trade "feelings"; they trade <strong>Standardized Units of Risk</strong>. If you cannot be consistent with your risk, you cannot be consistent with your results. A trader who risks 1% on one trade and 5% on the next is statistically guaranteed to fail due to the volatility of their own equity curve.</p>
+      
+      <div class="mt-8 p-6 bg-emerald/5 border border-emerald/20 rounded-xl">
+        <h4 class="text-emerald font-bold mb-2">Action Step</h4>
+        <p>Go to the <strong>Position Sizer</strong> menu. Set your Risk to 1% and calculate your next trade. Commit to this fixed percentage for the next 30 days without exception.</p>
+      </div>
+    `
+  },
+  {
     title: "Drawdown Management: How to Recover from a Losing Streak",
     slug: "drawdown-management",
     tag: "Risk Management",
-    description: "The mathematical and psychological roadmap to recovering from capital losses without risking total ruin.",
+    description: "The mathematical roadmap to recovering from capital losses and the concept of the 'Stop Trading Period'.",
     date: "April 28, 2026",
-    readTime: "7 min",
-    content: "<h2>The Math of Recovery</h2><p>Drawdown is an inevitable part of trading. However, recovering from it requires more than just winning trades—it requires a mathematical shift. A 10% loss requires an 11% gain to break even, but a 50% loss requires a 100% gain.</p><h3>The Strategy</h3><ul><li><strong>Reduce Position Size:</strong> Cut your risk in half until you regain your peak equity.</li><li><strong>Filter for Quality:</strong> Take only A+ setups during a drawdown phase.</li><li><strong>Emotional Reset:</strong> Step away from the terminal if the losing streak is affecting your decision-making.</li></ul>"
-  },
-  {
-    title: "The Math of Leverage: Why 1:500 is a Double-Edged Sword",
-    slug: "math-of-leverage",
-    tag: "Risk Management",
-    description: "Understanding how leverage amplifies both gains and losses, and why institutional traders rarely use it to the max.",
-    date: "April 28, 2026",
-    readTime: "6 min",
-    content: "<h2>Power and Peril</h2><p>Leverage is the ability to control large positions with a small amount of capital. While 1:500 sounds attractive, it means a small market move can either double your account or wipe it out.</p><h3>Institutional vs Retail</h3><p>Professional hedge funds rarely use leverage above 1:10. They prioritize capital preservation. Retail traders often use excessive leverage to 'get rich quick', which is the fastest way to hit a margin call.</p>"
-  },
-  {
-    title: "Position Sizing for Small Accounts ($100 to $1000)",
-    slug: "small-account-position-sizing",
-    tag: "Risk Management",
-    description: "Specific strategies for managing risk when your margin for error is extremely thin.",
-    date: "April 28, 2026",
-    readTime: "5 min",
-    content: "<h2>Micro-Lot Precision</h2><p>Trading a $100 account requires extreme discipline. You cannot afford to risk $10 per trade (10%), as ten losses will destroy you.</p><h3>The Solution</h3><ul><li><strong>Micro Lots (0.01):</strong> Always use the smallest volume possible.</li><li><strong>Fixed Ratio Sizing:</strong> Only increase your lot size once you have doubled your initial capital.</li><li><strong>Focus on Pips, not Dollars:</strong> Grade your performance by points gained, not the small dollar amounts.</li></ul>"
+    readTime: "8 min",
+    content: `
+      <h3>Introduction</h3>
+      <p>Every professional trader will experience a <strong>Drawdown</strong>. It is not a sign of failure, but a part of the business cycle. However, how you manage that drawdown determines whether you stay in the game or go bust.</p>
+      
+      <h3>Core Concept: The Recovery Table</h3>
+      <p>The deeper the hole, the harder the climb. Look at the <strong>Mathematics of Ruin</strong> below:</p>
+      <table class="w-full text-xs mb-6 border border-white/10">
+        <tr class="bg-white/5 font-bold"><td class="p-2">Loss of Capital</td><td class="p-2">Gain Required to Recover</td></tr>
+        <tr><td class="p-2 text-zinc-400">10%</td><td class="p-2 text-emerald">11%</td></tr>
+        <tr><td class="p-2 text-zinc-400">20%</td><td class="p-2 text-emerald">25%</td></tr>
+        <tr><td class="p-2 text-zinc-400">30%</td><td class="p-2 text-emerald">43%</td></tr>
+        <tr><td class="p-2 text-zinc-400">50%</td><td class="p-2 text-soft-rose">100%</td></tr>
+        <tr><td class="p-2 text-zinc-400">90%</td><td class="p-2 text-soft-rose">900%</td></tr>
+      </table>
+      
+      <h3>Technical Application: The Stop Trading Period</h3>
+      <p>To prevent a spiral, you must implement a <strong>Hard Stop</strong>. Institutional protocols often dictate a "Stop Trading Period" once a specific threshold is hit (e.g., 5% weekly drawdown). During this time:</p>
+      <ul>
+        <li>Close all active positions.</li>
+        <li>Deactivate any automated trading systems.</li>
+        <li>Perform a <strong>Post-Mortem Analysis</strong>: Was the loss due to strategy failure or emotional breakdown?</li>
+        <li>Only return when you have completed a mental reset.</li>
+      </ul>
+      
+      <h3>Institutional Insight</h3>
+      <p>Proprietary firms will literally lock a trader's account if they hit a <strong>Max Daily Loss</strong> limit. This isn't a punishment; it's a safety mechanism to prevent <strong>Emotional Contagion</strong>. If the pros need these rules, you do too.</p>
+      
+      <div class="mt-8 p-6 bg-emerald/5 border border-emerald/20 rounded-xl">
+        <h4 class="text-emerald font-bold mb-2">Action Step</h4>
+        <p>Define your "Hard Stop" limit now. Write it down: "If I lose X% of my account this week, I will stop trading for 48 hours."</p>
+      </div>
+    `
   },
   {
     title: "Correlated Risk: Why Trading EURUSD and GBPUSD Simultaneously is Dangerous",
     slug: "correlated-risk",
     tag: "Risk Management",
-    description: "Identifying hidden exposures when trading assets that move in lockstep with each other.",
-    date: "April 28, 2026",
-    readTime: "8 min",
-    content: "<h2>The Illusion of Diversification</h2><p>EURUSD and GBPUSD often have a 0.8+ correlation. If you risk 1% on each, you are essentially risking 2% on the US Dollar. If the Dollar moves against you, both trades will hit their stop losses simultaneously.</p><h3>Risk Protocol</h3><p>Always check a correlation matrix before opening multiple positions. If two pairs are highly correlated, either pick the strongest setup or split your 1% risk between both.</p>"
-  },
-  {
-    title: "Setting Stop Losses Based on Volatility (ATR Method)",
-    slug: "atr-stop-loss",
-    tag: "Risk Management",
-    description: "Using the Average True Range indicator to place stops that breathe with the market's natural rhythm.",
-    date: "April 28, 2026",
-    readTime: "6 min",
-    content: "<h2>Adaptive Risk</h2><p>Static stop losses (e.g., always 20 pips) fail because market volatility is constant. During high-volatility sessions, 20 pips is too tight; during low-volatility, it's too wide.</p><h3>The ATR Approach</h3><p>Set your stop loss at 1.5x or 2x the current ATR. This ensures your stop is outside the 'market noise' and only gets hit if the actual trend changes.</p>"
-  },
-  {
-    title: "Equity Curve: Tracking Your Progress Like a Hedge Fund",
-    slug: "equity-curve-tracking",
-    tag: "Risk Management",
-    description: "Visualizing your trading performance to identify patterns of success and periods of over-trading.",
+    description: "Identifying hidden exposures and 'Double Exposure' in the Forex market.",
     date: "April 28, 2026",
     readTime: "7 min",
-    content: "<h2>Beyond the P&L</h2><p>An equity curve is a graphical representation of your account balance over time. A smooth, upward-sloping curve indicates consistency. A jagged curve with massive spikes indicates excessive risk-taking.</p><h3>Performance KPIs</h3><ul><li><strong>Max Drawdown:</strong> The deepest valley in your curve.</li><li><strong>Sharpe Ratio:</strong> Your risk-adjusted return.</li><li><strong>Recovery Factor:</strong> How fast you bounce back from losses.</li></ul>"
+    content: `
+      <h3>Introduction</h3>
+      <p>Diversification is the only free lunch in finance, but in Forex, many traders mistake <strong>Correlation</strong> for diversification. Opening multiple trades that move in the same direction is not diversifying—it's <strong>leveraging</strong>.</p>
+      
+      <h3>Core Concept: Double Exposure</h3>
+      <p>Most major pairs are heavily influenced by the <strong>US Dollar (USD)</strong>. For example, EUR/USD and GBP/USD often have a correlation coefficient of 0.85 or higher. If you buy both EURUSD and GBPUSD, you aren't placing two unique trades. You are essentially placing a <strong>Double Bet</strong> against the USD. If the USD unexpectedly strengthens, both trades will likely fail, doubling your loss.</p>
+      
+      <h3>Technical Application</h3>
+      <p>To manage correlation effectively:</p>
+      <ul>
+        <li>Check a <strong>Correlation Matrix</strong> weekly.</li>
+        <li>If two pairs are >0.7 correlated, only trade the one with the <strong>Strongest Technical Setup</strong>.</li>
+        <li>If you must trade both, split your risk (e.g., 0.5% on each) so your total exposure remains 1%.</li>
+      </ul>
+      
+      <h3>Institutional Insight</h3>
+      <p>Banks use <strong>Value at Risk (VaR)</strong> models to calculate total exposure. They look at the "Basket Risk" rather than individual trades. Professional diversification involves trading assets that are <strong>Uncorrelated</strong>, such as trading a Long Gold (Safe Haven) position alongside a Long AUD/JPY (Risk-On) position.</p>
+      
+      <div class="mt-8 p-6 bg-emerald/5 border border-emerald/20 rounded-xl">
+        <h4 class="text-emerald font-bold mb-2">Action Step</h4>
+        <p>Review your open positions. Are you "Long the Dollar" across four different pairs? If so, you have <strong>Over-Concentrated Risk</strong>. Reduce exposure immediately.</p>
+      </div>
+    `
   },
 
   // Pillar 2: Technical Analysis
   {
-    title: "Supply & Demand vs. Support & Resistance: The Key Differences",
-    slug: "supply-demand-vs-support-resistance",
-    tag: "Technical Analysis",
-    description: "Decoding the psychological zones where institutional orders are truly waiting.",
-    date: "April 28, 2026",
-    readTime: "9 min",
-    content: "<h2>Market Mechanics</h2><p>Support and Resistance are often areas where price has touched multiple times. Supply and Demand zones are where price moved away aggressively, indicating an imbalance of orders.</p><h3>The Difference</h3><p>Support/Resistance are 'floors' and 'ceilings'. Supply/Demand are 'springs' and 'traps'. Institutional traders look for zones that haven't been tested yet—these are the fresh supply/demand areas.</p>"
-  },
-  {
-    title: "Mastering Candlestick Anatomy: Beyond Just Hammers and Dojis",
-    slug: "candlestick-anatomy",
-    tag: "Technical Analysis",
-    description: "Understanding the story behind the wick and the body to predict the next market move.",
-    date: "April 28, 2026",
-    readTime: "6 min",
-    content: "<h2>The Story of Price</h2><p>A candlestick is more than just a shape. It's a battle report between buyers and sellers. Long wicks indicate rejection; large bodies indicate momentum.</p><h3>Key Formations</h3><ul><li><strong>Engulfing:</strong> Complete reversal of sentiment.</li><li><strong>Pin Bar:</strong> Strong rejection of a price level.</li><li><strong>Inside Bar:</strong> Market indecision and impending breakout.</li></ul>"
-  },
-  {
-    title: "Moving Averages: Finding the Dynamic Value in Trends",
-    slug: "moving-averages-trends",
-    tag: "Technical Analysis",
-    description: "How to use EMAs and SMAs to identify trend strength and potential mean reversion zones.",
-    date: "April 28, 2026",
-    readTime: "7 min",
-    content: "<h2>Dynamic Support</h2><p>Moving averages are 'rolling averages' of price. They act as dynamic support/resistance that moves with the trend.</p><h3>Institutional Standards</h3><ul><li><strong>20 EMA:</strong> Short-term momentum.</li><li><strong>50 EMA:</strong> Mid-term trend health.</li><li><strong>200 SMA:</strong> The ultimate filter for bull vs bear markets.</li></ul>"
-  },
-  {
-    title: "RSI Divergence: Identifying Reversals Before They Happen",
-    slug: "rsi-divergence",
-    tag: "Technical Analysis",
-    description: "Spotting the exhaustion in momentum that signals a major trend change.",
-    date: "April 28, 2026",
-    readTime: "8 min",
-    content: "<h2>Hidden Weakness</h2><p>Divergence occurs when price makes a new high/low, but the RSI indicator fails to do so. This signals that the trend is losing steam despite the price movement.</p><h3>Regular vs Hidden</h3><ul><li><strong>Regular:</strong> Signals a potential reversal.</li><li><strong>Hidden:</strong> Signals a potential trend continuation.</li></ul>"
-  },
-  {
-    title: "Fibonacci Retracement: Trading the Golden Pocket",
-    slug: "fibonacci-golden-pocket",
-    tag: "Technical Analysis",
-    description: "Using the mathematical ratios of the universe to find precise entry points in a trending market.",
-    date: "April 28, 2026",
-    readTime: "6 min",
-    content: "<h2>Nature's Ratio</h2><p>Fibonacci levels are based on mathematical sequences found throughout nature. In trading, they identify key areas where a correction is likely to end.</p><h3>The Golden Pocket</h3><p>The area between the 61.8% and 78.6% levels is known as the Golden Pocket. This is the highest probability zone for trend resumption.</p>"
-  },
-  {
-    title: "Multi-Timeframe Analysis: Aligning the Stars (H4 to M15)",
-    slug: "multi-timeframe-analysis",
-    tag: "Technical Analysis",
-    description: "The 'Top-Down' approach to ensuring your entries are backed by higher-timeframe momentum.",
-    date: "April 28, 2026",
-    readTime: "10 min",
-    content: "<h2>The Eagle and the Sniper</h2><p>Higher timeframes (Daily/H4) show the 'Big Picture' (Eagle View). Lower timeframes (M15/M5) show the 'Entry Point' (Sniper View).</p><h3>The Protocol</h3><ol><li>Identify Trend on Daily/H4.</li><li>Wait for Retracement on H1.</li><li>Enter on M15 when momentum aligns with the H4 trend.</li></ol>"
-  },
-  {
     title: "Intro to Smart Money Concepts (SMC) & Order Blocks",
     slug: "intro-to-smc",
     tag: "Technical Analysis",
-    description: "Trading like the banks by identifying where institutional orders are 'banked' in the market.",
+    description: "Decoding Liquidity Grabs, BOS, and CHoCH to trade with the banks.",
     date: "April 28, 2026",
-    readTime: "9 min",
-    content: "<h2>Tracking the Whales</h2><p>SMC assumes that 'Big Money' (Banks/Institutions) move the market. Order Blocks are areas where banks have left their limit orders to be filled.</p><h3>Key Concepts</h3><ul><li><strong>Break of Structure (BOS):</strong> Confirmation of trend shift.</li><li><strong>Change of Character (CHoCH):</strong> Early signal of a reversal.</li><li><strong>Liquidity Sweeps:</strong> When banks 'hunt' retail stops to fill their positions.</li></ul>"
+    readTime: "10 min",
+    content: `
+      <h3>Introduction</h3>
+      <p><strong>Smart Money Concepts (SMC)</strong> is based on the premise that the market is manipulated by large institutions (Banks, Market Makers) to find liquidity. They don't trade like retail; they trade <strong>Volume</strong>.</p>
+      
+      <h3>Core Concept: The Liquidity Hunt</h3>
+      <p>Banks need large amounts of liquidity to fill their orders. Often, this liquidity is found at <strong>Retail Stop Losses</strong> (above old highs or below old lows). An institutional trader will "Hunt" these stops to fill their massive positions before reversing the market. This is why you often see price break a level, hit your stop, and then immediately move in your predicted direction.</p>
+      
+      <h3>Technical Application: BOS & CHoCH</h3>
+      <ul>
+        <li><strong>Break of Structure (BOS):</strong> Occurs when the market continues in its current trend, breaking a previous swing high/low.</li>
+        <li><strong>Change of Character (CHoCH):</strong> The first signal that a trend is reversing. It happens when price breaks the <strong>Last Valid Swing</strong> that led to the high/low.</li>
+        <li><strong>Order Blocks:</strong> The "last candle" before a strong impulse move. This is where banks have left their limit orders to be filled on a retest.</li>
+      </ul>
+      
+      <h3>Institutional Insight</h3>
+      <p>Institutions look for <strong>Imbalances</strong>. They want to buy at a "Discount" and sell at a "Premium". By identifying where these whales have entered, you can stop being the <strong>Liquidity</strong> and start trading <strong>With the Liquidity</strong>.</p>
+      
+      <div class="mt-8 p-6 bg-emerald/5 border border-emerald/20 rounded-xl">
+        <h4 class="text-emerald font-bold mb-2">Action Step</h4>
+        <p>Look at your H4 chart. Find a major "V-shape" reversal. Locate the <strong>Order Block</strong> (last opposite candle) at the base. Mark it. Wait for a retest before entering.</p>
+      </div>
+    `
   },
   {
     title: "Fair Value Gaps (FVG): Identifying Market Imbalances",
     slug: "fair-value-gaps",
     tag: "Technical Analysis",
-    description: "Spotting the holes in price action where liquidity was skipped and must eventually be filled.",
+    description: "Why market imbalances are the 'Magnetic Zones' of price action.",
     date: "April 28, 2026",
-    readTime: "7 min",
-    content: "<h2>The Market's Memory</h2><p>An FVG occurs when price moves so fast that it creates an imbalance. The market tends to 'revisit' these areas to facilitate efficient trading.</p><h3>Trading the Gap</h3><p>Price often returns to fill at least 50% (Consequent Encroachment) of the FVG before continuing its original move.</p>"
+    readTime: "8 min",
+    content: `
+      <h3>Introduction</h3>
+      <p>A <strong>Fair Value Gap (FVG)</strong> is an area of price action where only one side of the market was represented (either only buyers or only sellers). These are also known as <strong>Inefficiencies</strong> or <strong>Imbalances</strong>.</p>
+      
+      <h3>Core Concept: The Fill Requirement</h3>
+      <p>The market is designed to be efficient. When an aggressive move creates an FVG, it leaves a "hole" in the price action. Market participants usually return to these areas to facilitate trading and fill the missed orders. Think of an FVG as a <strong>Vacuum</strong> that price eventually gets sucked back into.</p>
+      
+      <h3>Technical Application: The Equilibrium Entry</h3>
+      <p>Don't just enter as soon as price touches an FVG. Instead:</p>
+      <ul>
+        <li>Identify a large 3-candle sequence where the wicks of candle 1 and candle 3 do not overlap.</li>
+        <li>The gap between them is the FVG.</li>
+        <li>Measure the FVG using a Fibonacci tool.</li>
+        <li>Look for entries at the <strong>50% level (Equilibrium)</strong> of the FVG. This provides a much better risk/reward ratio.</li>
+      </ul>
+      
+      <h3>Institutional Insight</h3>
+      <p>Large orders are often split. The first half creates the FVG; the second half is waiting at the <strong>Discounted Price</strong> within that gap. When you see an FVG being filled and then price reacting away, you are seeing <strong>Smart Money Mitigation</strong>.</p>
+      
+      <div class="mt-8 p-6 bg-emerald/5 border border-emerald/20 rounded-xl">
+        <h4 class="text-emerald font-bold mb-2">Action Step</h4>
+        <p>Scan your current chart for a large explosive move. Find the FVG. Set a limit order at the 50% midpoint of that gap for a high-probability re-entry.</p>
+      </div>
+    `
+  },
+  {
+    title: "Multi-Timeframe Analysis: Aligning the Stars (H4 to M15)",
+    slug: "multi-timeframe-analysis",
+    tag: "Technical Analysis",
+    description: "Mastering the Top-Down Approach to eliminate market noise.",
+    date: "April 28, 2026",
+    readTime: "11 min",
+    content: `
+      <h3>Introduction</h3>
+      <p>One of the biggest mistakes traders make is trading <strong>In isolation</strong> on a single timeframe. The 15-minute chart might look bullish, but if the Daily chart is at a major resistance, that bullish move is likely a <strong>Bull Trap</strong>.</p>
+      
+      <h3>Core Concept: The Top-Down Approach</h3>
+      <p>Market structure is fractal. What happens on the Daily chart dictates the "Directional Bias," while the smaller timeframes provide the "Execution Timing." You must align the stars across multiple layers to achieve institutional-grade accuracy.</p>
+      
+      <h3>Technical Application</h3>
+      <ol>
+        <li><strong>D1 (Daily):</strong> Identify the overall trend and major liquidity zones. Are we Bullish or Bearish?</li>
+        <li><strong>H4 (4-Hour):</strong> Locate the <strong>Area of Interest (AOI)</strong>. Look for Order Blocks or FVGs within the Daily trend.</li>
+        <li><strong>M15/M5 (Lower TF):</strong> This is your <strong>Sniper Entry</strong>. Look for a CHoCH (Change of Character) on the M15 once price hits your H4 AOI.</li>
+      </ol>
+      
+      <h3>Institutional Insight</h3>
+      <p>Institutional desks don't "scalp" randomly. They have a <strong>Thesis</strong> built on higher-timeframe data. By using a top-down approach, you are ensuring that the <strong>Higher Timeframe Momentum</strong> is at your back, pushing your trade toward the target.</p>
+      
+      <div class="mt-8 p-6 bg-emerald/5 border border-emerald/20 rounded-xl">
+        <h4 class="text-emerald font-bold mb-2">Action Step</h4>
+        <p>Stop trading the 5-minute chart in isolation. Before every trade, check the Daily bias. If they don't match, <strong>No Trade</strong>.</p>
+      </div>
+    `
   },
 
   // Pillar 3: Fundamentals & Macro
   {
-    title: "Non-Farm Payrolls (NFP): A Trader’s Guide to the First Friday",
-    slug: "nfp-trading-guide",
-    tag: "Fundamentals",
-    description: "Navigating the most volatile economic event in the monthly trading calendar.",
-    date: "April 28, 2026",
-    readTime: "8 min",
-    content: "<h2>The King of Volatility</h2><p>NFP reports the change in the number of employed people in the US (excluding the farming industry). It is the most watched data point by the Federal Reserve.</p><h3>The Reaction</h3><p>If the number is much higher than expected, the USD typically surges. If lower, it drops. The 'whipsaw' in the first 15 minutes is dangerous—professionals often wait for the '30-minute retrace' to enter.</p>"
-  },
-  {
     title: "Interest Rates: Why Central Banks Rule the Forex Market",
     slug: "interest-rates-forex",
     tag: "Fundamentals",
-    description: "The primary driver of currency value: why money flows toward higher interest rates.",
+    description: "How Hawkish vs Dovish policies dictate the long-term flow of global capital.",
     date: "April 28, 2026",
     readTime: "10 min",
-    content: "<h2>Follow the Yield</h2><p>Currencies are effectively the 'shares' of a country. The interest rate is the 'dividend'. Investors move capital to countries with higher interest rates (Carry Trade).</p><h3>Central Bank Meetings</h3><p>The FOMC (Fed), ECB, and BoE meetings are the most critical dates on your calendar. Their tone (Hawkish vs Dovish) dictates long-term trends.</p>"
-  },
-  {
-    title: "CPI & Inflation: The New Driver of Market Volatility",
-    slug: "cpi-inflation-volatility",
-    tag: "Fundamentals",
-    description: "Understanding how consumer price data forces central banks to act and move markets.",
-    date: "April 28, 2026",
-    readTime: "7 min",
-    content: "<h2>Purchasing Power</h2><p>Consumer Price Index (CPI) measures the average change over time in the prices paid by consumers. High inflation forces central banks to raise interest rates, strengthening the currency.</p><h3>Modern Context</h3><p>In the post-2020 era, CPI releases have become more volatile than NFP, as the focus has shifted entirely to inflation control.</p>"
+    content: `
+      <h3>Introduction</h3>
+      <p>In Forex, <strong>Interest Rates</strong> are the ultimate gravity. They dictate where money flows. If you understand the Central Bank, you understand the trend.</p>
+      
+      <h3>Core Concept: Hawkish vs Dovish</h3>
+      <p>A <strong>Hawkish</strong> central bank wants to raise interest rates to fight inflation. Higher rates attract foreign investors looking for yield, which <strong>strengthens the currency</strong>. A <strong>Dovish</strong> central bank wants to lower rates to stimulate the economy, which typically <strong>weakens the currency</strong>.</p>
+      
+      <h3>Technical Application</h3>
+      <p>Focus on the <strong>Federal Reserve (The Fed)</strong>. Because the USD is the world's reserve currency, their FOMC meetings set the tone for all major pairs. If the Fed is Hawkish (raising rates) while the ECB is Dovish (keeping rates low), the **EUR/USD** is mathematically primed for a long-term downtrend.</p>
+      
+      <h3>Institutional Insight</h3>
+      <p>Institutions trade the <strong>Expectation</strong>, not just the news. If the market expects a 25bps hike and gets exactly that, the price might not move much (it's "priced in"). The real volatility happens during the <strong>Press Conference</strong> when the governor gives clues about <strong>Future</strong> hikes.</p>
+      
+      <div class="mt-8 p-6 bg-emerald/5 border border-emerald/20 rounded-xl">
+        <h4 class="text-emerald font-bold mb-2">Action Step</h4>
+        <p>Check the Economic Calendar for the next **Central Bank Interest Rate Decision**. Read the previous meeting minutes to see if they are trending Hawkish or Dovish.</p>
+      </div>
+    `
   },
   {
     title: "The DXY (US Dollar Index) Correlation with Gold (XAUUSD)",
     slug: "dxy-gold-correlation",
     tag: "Fundamentals",
-    description: "Why the 'Inverted Mirror' relationship between Gold and the Dollar is the trader's best friend.",
-    date: "April 28, 2026",
-    readTime: "6 min",
-    content: "<h2>The Dollar's Rival</h2><p>Gold is priced in Dollars. When the DXY (Dollar Index) rises, Gold typically falls (it takes more Dollars to buy the same ounce of Gold). When DXY drops, Gold surges.</p><h3>Trading Strategy</h3><p>Always have a DXY chart open when trading XAUUSD. If DXY hits a major resistance level, it's often a signal that Gold is about to bottom out.</p>"
-  },
-  {
-    title: "Safe Haven Assets: Trading Gold During Geopolitical Turmoil",
-    slug: "gold-safe-haven",
-    tag: "Fundamentals",
-    description: "How Gold acts as the ultimate insurance policy during wars, crises, and economic uncertainty.",
+    description: "The Inverted Mirror: Why Gold traders must master the Dollar Index.",
     date: "April 28, 2026",
     readTime: "8 min",
-    content: "<h2>Fear Premium</h2><p>During times of war or financial instability, investors flee 'risky' assets (Stocks/Currencies) and buy 'safe' assets. Gold is the world's oldest safe haven.</p><h3>The Sentiment Shift</h3><p>Technical analysis often breaks down during geopolitical shocks. In these moments, sentiment and 'flight to safety' are the only drivers that matter.</p>"
-  },
-  {
-    title: "Economic Calendar Mastery: Filtering High-Impact News",
-    slug: "economic-calendar-mastery",
-    tag: "Fundamentals",
-    description: "A professional protocol for planning your week around market-moving data releases.",
-    date: "April 28, 2026",
-    readTime: "5 min",
-    content: "<h2>Plan Your Attack</h2><p>A professional trader never gets 'surprised' by a news release. They know every high-impact event (Red Folders) for the week ahead.</p><h3>Filtering Protocol</h3><ul><li><strong>Tier 1:</strong> NFP, CPI, Interest Rate Decisions.</li><li><strong>Tier 2:</strong> Retail Sales, GDP, PMI.</li><li><strong>Tier 3:</strong> Speeches and low-impact data.</li></ul>"
+    content: `
+      <h3>Introduction</h3>
+      <p>Gold (XAUUSD) is the ultimate hedge against currency devaluation. However, most people forget that Gold is <strong>Priced in US Dollars</strong>. This creates a powerful, often inverted, correlation.</p>
+      
+      <h3>Core Concept: The Inverted Mirror</h3>
+      <p>When the <strong>US Dollar Index (DXY)</strong> is strong, it takes fewer Dollars to buy an ounce of Gold, causing the price of Gold to drop. Conversely, when the Dollar is weak, Gold becomes "cheaper" for international buyers, driving the price up. They are <strong>Inversely Correlated</strong> about 80% of the time.</p>
+      
+      <h3>Technical Application</h3>
+      <p>Never analyze Gold in a vacuum. Before taking a Long setup on Gold, look at the DXY chart:</p>
+      <ul>
+        <li>If Gold is at support but DXY is also at a <strong>Major Support</strong>, be careful—DXY might bounce and crush your Gold trade.</li>
+        <li>The highest probability Gold trades happen when Gold is at support and DXY is at <strong>Major Resistance</strong>.</li>
+      </ul>
+      
+      <h3>Institutional Insight</h3>
+      <p>Banks use Gold as a <strong>Tier 1 Reserve Asset</strong>. When they see technical and fundamental weakness in the Dollar, they rotate billions into Gold. This "Rotation" is what drives the massive 1000+ pip trends we see on XAUUSD.</p>
+      
+      <div class="mt-8 p-6 bg-emerald/5 border border-emerald/20 rounded-xl">
+        <h4 class="text-emerald font-bold mb-2">Action Step</h4>
+        <p>Add **DXY** to your watchlist. Before your next Gold trade, verify that the DXY is not working against your directional bias.</p>
+      </div>
+    `
   },
 
   // Pillar 4: Trading Psychology
   {
-    title: "The FOMO Trap: Why You Shouldn't Chase the Candle",
-    slug: "fomo-trap-psychology",
+    title: "Probabilistic Thinking: Accepting Loss as a Business Cost",
+    slug: "probabilistic-thinking-trading",
     tag: "Psychology",
-    description: "Overcoming the 'Fear Of Missing Out' that leads to poor entries and excessive risk.",
+    description: "Shifting from 'Being Right' to 'Playing the Odds'.",
     date: "April 28, 2026",
-    readTime: "7 min",
-    content: "<h2>Chasing the Ghost</h2><p>FOMO is the feeling that a big move is happening without you. It leads to 'panic buying' at the top or 'panic selling' at the bottom.</p><h3>The Antidote</h3><p>Remember: The market is open tomorrow. There is always another setup. If you missed the entry, let it go. Chasing a move is a high-risk, low-reward gamble.</p>"
+    readTime: "9 min",
+    content: `
+      <h3>Introduction</h3>
+      <p>Most traders quit because they cannot handle losing. They view a loss as a failure of their intelligence. In reality, a loss is simply a <strong>Statistical Necessity</strong>.</p>
+      
+      <h3>Core Concept: The Single Data Point</h3>
+      <p>Professional traders think in <strong>Sample Sizes</strong>. A single trade is just one data point out of a series of one thousand trades. If your strategy has a 60% win rate, you <strong>must</strong> lose 40 times out of 100. You don't know <em>when</em> those 40 losses will occur—they might happen 10 times in a row. That doesn't mean the system is broken; it's just the distribution of probability.</p>
+      
+      <h3>Technical Application</h3>
+      <p>To master probabilistic thinking:</p>
+      <ul>
+        <li>Stop checking your P&L after every trade.</li>
+        <li>Only evaluate your performance after a <strong>Batch of 20 Trades</strong>.</li>
+        <li>Focus on <strong>Process</strong> (did I follow the rules?) rather than <strong>Outcome</strong> (did I make money?).</li>
+      </ul>
+      
+      <h3>Institutional Insight</h3>
+      <p>Casinos don't feel "sad" when a player wins. They know that as long as they keep the players at the table, the <strong>House Edge</strong> will prevail over time. You must be the house. Your "Edge" is your strategy + your discipline.</p>
+      
+      <div class="mt-8 p-6 bg-emerald/5 border border-emerald/20 rounded-xl">
+        <h4 class="text-emerald font-bold mb-2">Action Step</h4>
+        <p>Commit to a "20-Trade Challenge". Execute 20 trades following your rules perfectly. Do not change the strategy or risk until the 20th trade is closed. <strong>Judge the results only then.</strong></p>
+      </div>
+    `
   },
   {
     title: "Revenge Trading: How to Stop the Cycle of Loss",
     slug: "revenge-trading-prevention",
     tag: "Psychology",
-    description: "Identifying the emotional urge to 'get it back' and how it destroys trading accounts.",
-    date: "April 28, 2026",
-    readTime: "6 min",
-    content: "<h2>The Internal War</h2><p>Revenge trading happens after a frustrating loss. You feel the market 'stole' your money and you want it back immediately. This leads to doubling down and ignoring your plan.</p><h3>The Reset</h3><p>If you feel anger after a loss, close the terminal. Go for a walk. The market doesn't know you exist and doesn't 'owe' you anything.</p>"
-  },
-  {
-    title: "Trading Discipline: Creating and Sticking to a Rule-Based System",
-    slug: "trading-discipline-rules",
-    tag: "Psychology",
-    description: "Why a 50% strategy with 100% discipline beats a 90% strategy with 0% discipline.",
+    description: "Taming the Amygdala: How to survive the emotional 'Fight or Flight' response.",
     date: "April 28, 2026",
     readTime: "8 min",
-    content: "<h2>The Soldier's Mindset</h2><p>Discipline is the bridge between goals and accomplishment. In trading, it means following your rules even when it's boring or when it's scary.</p><h3>Building Rules</h3><ul><li>Entry Criteria (A, B, C).</li><li>Exit Criteria (Stop Loss/Take Profit).</li><li>Risk Limit (1% per trade).</li><li>Daily Loss Limit (Stop after 3 losses).</li></ul>"
-  },
-  {
-    title: "The Importance of a Trading Journal: Turning Data into Profit",
-    slug: "trading-journal-importance",
-    tag: "Psychology",
-    description: "The secret weapon of professional traders: treating your trading like a business.",
-    date: "April 28, 2026",
-    readTime: "9 min",
-    content: "<h2>The Mirror of Truth</h2><p>A journal doesn't lie. It shows you exactly where you're failing and where you're winning. Most traders repeat the same mistakes for years because they don't track them.</p><h3>What to Log</h3><ul><li>Screenshot of Entry/Exit.</li><li>The Rationale (Why?).</li><li>The Emotion (How did you feel?).</li><li>The Outcome (Result).</li></ul>"
-  },
-  {
-    title: "Probabilistic Thinking: Accepting Loss as a Business Cost",
-    slug: "probabilistic-thinking-trading",
-    tag: "Psychology",
-    description: "Shifting your mindset from 'Being Right' to 'Being Profitable' over a large sample of trades.",
-    date: "April 28, 2026",
-    readTime: "10 min",
-    content: "<h2>The Casino's Advantage</h2><p>A casino doesn't worry when one player wins big. They know that over 10,000 bets, the math is in their favor. You must think like the house.</p><h3>Large Sample Size</h3><p>One trade means nothing. Your results are only valid over a sample of 20, 50, or 100 trades. Accept the individual loss as the 'cost of doing business'.</p>"
-  },
+    content: `
+      <h3>Introduction</h3>
+      <p><strong>Revenge Trading</strong> is the single fastest way to blow a trading account. It is the impulsive urge to "get back" what the market just took. It's not a trading problem; it's a <strong>Biological Response</strong>.</p>
+      
+      <h3>Core Concept: The Amygdala Hijack</h3>
+      <p>When you take a frustrating loss, your brain's <strong>Amygdala</strong> triggers a "Fight or Flight" response. Your prefrontal cortex (the part of the brain that does math and follows rules) literally shuts down. You are no longer a trader; you are a primal animal trying to "fight" the market. This leads to doubled position sizes, ignored stop losses, and complete account ruin.</p>
+      
+      <h3>Technical Application: The Step-Away Protocol</h3>
+      <p>You cannot "think" your way out of an Amygdala Hijack. You must physically disrupt the environment:</p>
+      <ul>
+        <li><strong>Hard Limit:</strong> If you lose 2 trades in a row, close the terminal immediately.</li>
+        <li><strong>Physical Movement:</strong> Go for a walk or do a high-intensity activity for 15 minutes. This flushes the cortisol from your system.</li>
+        <li><strong>Terminal Lock:</strong> Use software or a cold-turkey method to prevent logging back in for at least 4 hours.</li>
+      </ul>
+      
+      <h3>Institutional Insight</h3>
+      <p>Risk managers at top firms aren't there just to check the numbers—they are there to act as the "External Prefrontal Cortex" for the traders. If they see a trader acting emotionally, they <strong>Forcibly Disable</strong> their trading permissions. Since you don't have a risk manager, you must build these systems for yourself.</p>
+      
+      <div class="mt-8 p-6 bg-emerald/5 border border-emerald/20 rounded-xl">
+        <h4 class="text-emerald font-bold mb-2">Action Step</h4>
+        <p>Identify your "Emotional Trigger" (e.g., a specific dollar loss). Create a physical rule that you will leave the room for 20 minutes as soon as that trigger is hit.</p>
+      </div>
+    `
+  }
 ];

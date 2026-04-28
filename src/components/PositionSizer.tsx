@@ -3,7 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { Info, Calculator, Target, ShieldCheck, ArrowRight, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { ASSETS, Asset } from "@/lib/assets";
+
 import Combobox from "./Combobox";
 
 export default function PositionSizer() {
@@ -139,6 +141,23 @@ export default function PositionSizer() {
             <span className="text-[8px] text-zinc-900 font-bold tracking-widest italic">728 x 90 PLACEHOLDER</span>
           </div>
         </div>
+
+        {/* Interlinking Bridge */}
+        <div className="mt-6 px-4 text-center">
+          <p className="text-[10px] text-zinc-600 font-medium italic mb-2">
+            Confused about these numbers? 
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link href="/academy/the-1-percent-rule" className="text-[10px] font-bold text-emerald hover:underline underline-offset-4 decoration-emerald/30 uppercase tracking-widest">
+              Read: The 1% Rule
+            </Link>
+            <span className="text-zinc-800 text-[10px]">•</span>
+            <Link href="/academy/pip-value-mastery" className="text-[10px] font-bold text-emerald hover:underline underline-offset-4 decoration-emerald/30 uppercase tracking-widest">
+              Pip Value Mastery
+            </Link>
+          </div>
+        </div>
+
 
       </motion.div>
     </div>

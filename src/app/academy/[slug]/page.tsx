@@ -3,7 +3,7 @@
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Clock, User, Share2, Bookmark } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock, User, Share2, Bookmark, GraduationCap, Calculator } from "lucide-react";
 import { motion } from "framer-motion";
 import { ACADEMY_ARTICLES } from "@/lib/academy-data";
 
@@ -82,8 +82,22 @@ export default function ArticleDetail() {
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
 
+          {/* Author Section for E-E-A-T */}
+          <div className="mt-20 p-8 terminal-card bg-zinc-900/50 border-white/5 flex flex-col md:flex-row items-center gap-8">
+            <div className="w-24 h-24 rounded-full bg-zinc-800 flex items-center justify-center border-2 border-emerald/20 flex-shrink-0">
+              <User size={40} className="text-emerald/40" />
+            </div>
+            <div>
+              <p className="text-[10px] font-bold text-emerald uppercase tracking-[0.3em] mb-1">About the Author</p>
+              <h4 className="text-lg font-bold text-zinc-100 mb-2">Daniel Raditya</h4>
+              <p className="text-sm text-zinc-500 leading-relaxed italic">
+                Chief Strategist & Architect of Axiom Intelligence. Specialized in Algorithmic Trading and Risk Management with over a decade of institutional experience.
+              </p>
+            </div>
+          </div>
+
           {/* Navigation Between Articles */}
-          <div className="mt-20 pt-10 border-t border-white/5 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
             {prevArticle ? (
               <Link href={`/academy/${prevArticle.slug}`} className="group p-6 terminal-card border-white/5 hover:border-emerald/20 transition-all">
                 <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-2 group-hover:text-emerald transition-colors">
@@ -103,10 +117,15 @@ export default function ArticleDetail() {
             ) : <div />}
           </div>
 
-          <div className="mt-16 flex flex-col items-center text-center p-10 bg-zinc-900/30 rounded-2xl border border-white/5">
-            <p className="text-sm text-zinc-500 mb-6 italic">Ready to deploy these insights?</p>
+          <div className="mt-16 p-10 terminal-card bg-emerald/5 border-emerald/10 flex flex-col items-center text-center">
+            <Calculator size={32} className="text-emerald mb-6" />
+            <h3 className="text-xl font-bold text-zinc-100 mb-2">Ready to apply this strategy?</h3>
+            <p className="text-sm text-zinc-500 mb-8 max-w-md">Use our institutional-grade terminal to calculate your next position with 100% precision.</p>
             <Link href="/position-sizer" className="px-12 py-4 bg-emerald text-zinc-950 font-bold text-xs uppercase tracking-[0.4em] rounded-xl hover:shadow-[0_0_40px_rgba(16,185,129,0.3)] transition-all">
-              Initialize Terminal
+              Open Position Sizer
+            </Link>
+            <Link href="/academy/glossary" className="mt-6 text-[10px] font-bold text-zinc-600 uppercase tracking-widest hover:text-zinc-300 transition-colors">
+              Still confused? View Trading Glossary
             </Link>
           </div>
         </motion.div>

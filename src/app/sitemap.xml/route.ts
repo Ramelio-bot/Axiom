@@ -1,10 +1,9 @@
-import { MetadataRoute } from 'next';
+import { NextResponse } from 'next/server';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export async function GET() {
   const baseUrl = 'https://axiom-peach.vercel.app';
   
-  // Core routes
-  const routes = [
+  const coreRoutes = [
     '',
     '/dashboard',
     '/position-sizer',
@@ -16,14 +15,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/disclaimer',
     '/privacy',
     '/terms',
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: route === '' ? 1.0 : route.startsWith('/academy') ? 0.9 : 0.8,
-  }));
+  ];
 
-  // Academy Articles (25 articles)
   const articles = [
     'drawdown-management',
     'math-of-leverage',
@@ -50,12 +43,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'trading-discipline-rules',
     'trading-journal-importance',
     'probabilistic-thinking-trading',
-  ].map((slug) => ({
-    url: `${baseUrl}/academy/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }));
+  ];
 
-  return [...routes, ...articles];
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  ${coreRoutes.map(route => `
+  <url>
+    <loc>${baseUrl}${route}</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>${route === '' ? 'weekly' : 'monthly'}</changefreq>
+    <priority>${route === '' ? '1.0' : '0.8'}</priority>
+  </url>`).join('')}
+  ${articles.map(slug => `
+  <url>
+    <loc>${baseUrl}/academy/${slug}</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`).join('')}
+</urlset>`;
+
+  return new NextResponse(sitemap, {
+    headers: {
+      'Content-Type': 'application/xml',
+      'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate',
+    },
+  });
 }

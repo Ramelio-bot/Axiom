@@ -4,4 +4,4 @@ Allow: /
 User-agent: Mediapartners-Google
 Allow: /
 
-Sitemap: https://axiom-terminal.vercel.app/sitemap.xml
+Sitemap: https://axiom-peach.vercel.app/sitemap.xml
